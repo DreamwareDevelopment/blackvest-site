@@ -1,0 +1,33 @@
+/*
+ * tokens.css — blackvest.ai marketing (gold-premium).
+ * Dark canvas, gold signal, restrained. Distinct from the showcase's cyan
+ * editorial-technical identity (separate repo, separate brand).
+ */
+:root {
+  --bg:#08080a; --bg2:#0d0d10; --line:#1b1b22; --line2:#13131a;
+  --ink:#f4f2ee; --dim:#9a9aa2; --mute:#63636c;
+  --gold:#caa45a; --gold-dim:rgba(202,164,90,.14);
+
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", "JetBrains Mono", "Fira Code", Menlo, Consolas, monospace;
+
+  --fs-display: clamp(2.6rem, 6.4vw, 5rem);
+  --fs-h2: clamp(1.7rem, 3.2vw, 2.5rem);
+  --fs-h3: clamp(1.15rem, 2vw, 1.4rem);
+  --fs-body: 1.0625rem;
+  --fs-small: 0.9rem;
+  --fs-mono: 0.82rem;
+
+  --lh-tight: 1.05; --lh-snug: 1.35; --lh-body: 1.6;
+  --tracking-cap: 0.22em;
+
+  --s-1:.25rem; --s-2:.5rem; --s-3:.75rem; --s-4:1rem; --s-6:1.5rem;
+  --s-8:2rem; --s-12:3rem; --s-16:4rem; --s-24:6rem; --s-32:8rem;
+
+  --maxw: 74rem; --maxw-prose: 44rem;
+  --radius: 8px; --radius-sm: 6px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}

@@ -1,0 +1,12 @@
+dist/
+.output/
+.astro/
+node_modules/
+.wrangler/
+.env
+.env.*
+.dev.vars
+.DS_Store
+*.log
+.vscode/
+.idea/

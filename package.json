@@ -1,0 +1,15 @@
+{
+  "name": "blackvest-site",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Marketing front door for blackvest.ai — brand + thesis + waitlist for AI Engineers using AI to land AI-Engineering roles.",
+  "license": "MIT",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": { "astro": "^4.16.18" }
+}
