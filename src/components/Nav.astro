@@ -1,0 +1,27 @@
+---
+import { site } from "../site.config";
+---
+<header class="nav">
+  <div class="wrap nav__inner">
+    <a class="nav__brand" href="#top"><span class="nav__mark" aria-hidden="true"></span>{site.name}</a>
+    <nav class="nav__links" aria-label="Sections">
+      <a href="#how">How it works</a>
+      <a href="#proof">Proof</a>
+      <a href="#waitlist" class="nav__cta">Request an invite</a>
+    </nav>
+  </div>
+</header>
+<style>
+  .nav { position: sticky; top: 0; z-index: 50; height: 4.5rem; display: flex; align-items: center;
+    background: color-mix(in srgb, var(--bg) 72%, transparent); backdrop-filter: saturate(140%) blur(10px);
+    border-bottom: 1px solid var(--line2); }
+  .nav__inner { display: flex; align-items: center; justify-content: space-between; }
+  .nav__brand { display: inline-flex; align-items: center; gap: .6rem; color: var(--ink); font-family: var(--mono); font-weight: 600; }
+  .nav__brand:hover { text-decoration: none; }
+  .nav__mark { width: .85rem; height: .85rem; border-radius: 3px; background: var(--gold); box-shadow: 0 0 0 3px var(--gold-dim); }
+  .nav__links { display: flex; align-items: center; gap: clamp(.9rem, 2.5vw, 1.6rem); font-family: var(--mono); font-size: .82rem; }
+  .nav__links a { color: var(--dim); }
+  .nav__links a:hover { color: var(--gold); text-decoration: none; }
+  .nav__cta { color: var(--gold) !important; border: 1px solid var(--line); padding: .5rem .95rem; border-radius: 100px; }
+  @media (max-width: 540px) { .nav__links a:not(.nav__cta) { display: none; } }
+</style>

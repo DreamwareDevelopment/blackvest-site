@@ -1,0 +1,31 @@
+---
+import { site } from "../site.config";
+---
+<section class="section proof" id="proof">
+  <div class="wrap">
+    <span class="eyebrow reveal">Proof, not promises</span>
+    <h2 class="proof__title reveal">The system is already running.</h2>
+    <p class="lede prose reveal dim">
+      Not a pitch deck. A live system running one engineer's job search in the
+      open, with its architecture and guardrails on display.
+    </p>
+    <div class="proof__stats reveal">
+      {site.proof.map((p) => (
+        <div class="proof__stat">
+          <div class="proof__n">{p.n}</div>
+          <div class="proof__l">{p.label}</div>
+        </div>
+      ))}
+      <a class="proof__link" href={site.showcaseUrl}>See it work <span aria-hidden="true">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+<style>
+  .proof__title { font-size: var(--fs-h2); margin-block: var(--s-3) var(--s-4); }
+  .proof__stats { margin-top: var(--s-8); display: flex; flex-wrap: wrap; gap: var(--s-8); align-items: center;
+    border-top: 1px solid var(--line); padding-top: var(--s-8); }
+  .proof__n { font-family: var(--mono); font-size: 1.6rem; color: var(--gold); font-weight: 650; }
+  .proof__l { font-size: var(--fs-small); color: var(--mute); margin-top: .25rem; }
+  .proof__link { margin-left: auto; font-family: var(--mono); font-size: .82rem; border: 1px solid var(--line); border-radius: 100px; padding: .55rem 1.1rem; color: var(--ink); }
+  .proof__link:hover { border-color: var(--gold); text-decoration: none; }
+</style>

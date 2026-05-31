@@ -1,0 +1,31 @@
+---
+import { site } from "../site.config";
+---
+<header class="hero" id="top">
+  <div class="wrap">
+    <span class="eyebrow">Merit-gated · AI Engineers only</span>
+    <h1 class="hero__title">
+      You can already get hired.<br />
+      <span class="hero__g">This is for the role you actually want.</span>
+    </h1>
+    <p class="lede hero__sub prose">
+      An agentic system that interviews you on <em>merit</em>, then puts its own
+      reputation on the line to place you. You can't buy your way in; passing is
+      the point.
+    </p>
+    <div class="hero__cta">
+      <a href="#waitlist" class="btn-p">Request an invite</a>
+      <a href={site.showcaseUrl} class="btn-s">See it work <span style="color:var(--gold)">&rarr;</span></a>
+    </div>
+    <p class="hero__micro">No application spam. One authentic identity. Every claim traceable.</p>
+  </div>
+</header>
+<style>
+  .hero { padding-block: clamp(5rem, 16vh, 11rem) clamp(4rem, 9vh, 7rem); }
+  .hero__title { font-size: var(--fs-display); max-width: 16ch; margin-top: var(--s-8); }
+  .hero__g { color: var(--gold); }
+  .hero__sub { margin-top: var(--s-6); max-width: 50ch; }
+  .hero__sub em { color: var(--ink); font-style: normal; }
+  .hero__cta { margin-top: var(--s-8); display: flex; flex-wrap: wrap; gap: var(--s-3); align-items: center; }
+  .hero__micro { margin-top: var(--s-4); font-family: var(--mono); font-size: .72rem; color: var(--mute); letter-spacing: .03em; }
+</style>
