@@ -1,0 +1,38 @@
+---
+import "../styles/global.css";
+import { site } from "../site.config";
+
+interface Props { title?: string; description?: string; }
+const {
+  title = `${site.name}: ${site.tagline}`,
+  description = "An agentic system that interviews AI Engineers on merit and helps place them. For engineers who can already get hired and want the role they actually want.",
+} = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <slot />
+    <script is:inline>
+      document.documentElement.classList.add("js");
+      (function () {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        var io = new IntersectionObserver(function (es) {
+          es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+        }, { rootMargin: "0px 0px -10% 0px", threshold: 0.08 });
+        document.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
+      })();
+    </script>
+  </body>
+</html>
