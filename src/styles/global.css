@@ -39,3 +39,15 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
   .js .reveal { opacity: 0; transform: translateY(14px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
   .js .reveal.in { opacity: 1; transform: none; }
 }
+
+/* ── Mobile: tighten the vertical rhythm + reading measure ──────────── */
+@media (max-width: 640px) {
+  /* Sections eat too much screen at 6rem top+bottom on a phone. */
+  .section { padding-block: var(--s-16); }
+  /* A hair more side breathing room is handled by .wrap's clamp; nudge the
+     reading measure so long lines wrap comfortably, not edge-to-edge. */
+  .lede { max-width: 100%; }
+  /* Primary/secondary buttons go full-width + centered so they're an easy
+     thumb target and read as a clear stack. */
+  .btn-p, .btn-s { width: 100%; justify-content: center; text-align: center; padding-block: 1rem; }
+}

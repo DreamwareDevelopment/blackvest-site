@@ -28,4 +28,15 @@ import { site } from "../site.config";
   .hero__sub em { color: var(--ink); font-style: normal; }
   .hero__cta { margin-top: var(--s-8); display: flex; flex-wrap: wrap; gap: var(--s-3); align-items: center; }
   .hero__micro { margin-top: var(--s-4); font-family: var(--mono); font-size: .72rem; color: var(--mute); letter-spacing: .03em; }
+
+  @media (max-width: 640px) {
+    /* Top padding can shrink hard on a phone — the eyebrow does the spacing. */
+    .hero { padding-block: clamp(3rem, 12vh, 5rem) var(--s-12); }
+    /* Ease the display size down and tighten line-height so the headline
+       reads as a confident block, not three oversized lines hugging the edge. */
+    .hero__title { font-size: clamp(2.1rem, 10.5vw, 3rem); line-height: 1.08; max-width: 100%; margin-top: var(--s-6); }
+    .hero__cta { margin-top: var(--s-6); gap: var(--s-2); }
+    /* Let the micro-reassurance line wrap naturally instead of running off. */
+    .hero__micro { white-space: normal; }
+  }
 </style>

@@ -28,4 +28,11 @@ import { site } from "../site.config";
   .proof__l { font-size: var(--fs-small); color: var(--mute); margin-top: .25rem; }
   .proof__link { margin-left: auto; font-family: var(--mono); font-size: .82rem; border: 1px solid var(--line); border-radius: 100px; padding: .55rem 1.1rem; color: var(--ink); }
   .proof__link:hover { border-color: var(--gold); text-decoration: none; }
+
+  @media (max-width: 640px) {
+    /* Three stats sit two-up then wrap, and the "See it work" pill drops to
+       its own full-width row instead of floating awkwardly via margin-left. */
+    .proof__stats { gap: var(--s-6) var(--s-8); }
+    .proof__link { margin-left: 0; width: 100%; text-align: center; margin-top: var(--s-2); }
+  }
 </style>

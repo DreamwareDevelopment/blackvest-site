@@ -24,6 +24,14 @@
   .wl__email::placeholder { color: var(--mute); }
   .wl__msg { margin-top: var(--s-3); font-family: var(--mono); font-size: .8rem; min-height: 1.2em; }
   .wl__msg.ok { color: var(--gold); } .wl__msg.err { color: #e06a6a; }
+
+  @media (max-width: 640px) {
+    /* Stack the field over a full-width button instead of cramming them on
+       one row (the 14rem min-width forced an ugly wrap before). */
+    .wl__form { flex-direction: column; align-items: stretch; }
+    .wl__email { min-width: 0; width: 100%; }
+    .wl__form .btn-p { width: 100%; }
+  }
 </style>
 <script is:inline>
   (function () {
