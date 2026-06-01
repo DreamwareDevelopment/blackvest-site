@@ -1,8 +1,8 @@
 /**
- * site.config.ts — blackvest.ai marketing front door.
+ * site.config.ts: blackvest.ai marketing front door.
  *
  * Brand/thesis page only. Makes NO pricing, guarantee, or "start your
- * interview" claims — ADR-020's refund-guarantee liability + employment-agency
+ * interview" claims, because ADR-020's refund-guarantee liability + employment-agency
  * licensing are unresolved. Captures interest (waitlist) and routes proof to
  * the showcase. Never imports the vault.
  */
