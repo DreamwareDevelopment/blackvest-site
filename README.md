@@ -20,8 +20,9 @@ npm install
 npm run dev
 npm run build                                   # → dist/
 npx wrangler pages dev dist                     # local, with the Function + D1
-npx wrangler pages deploy dist --project-name blackvest-site --branch main
 ```
+
+**Deploy:** push to `main` (or merge a PR) — CI/CD deploys to Cloudflare Pages (`blackvest-site`) via the `wrangler-action` `deploy` job in `.github/workflows/ci.yml`. Don't run `wrangler pages deploy` by hand — it bypasses CI + branch protection.
 
 ## Waitlist data
 Signups land in the `blackvest_waitlist` D1 database (`signups` table). Email is
