@@ -1,0 +1,149 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Nav from "../components/Nav.astro";
+import { site } from "../site.config";
+
+// The provenance tiers, verbatim in spirit with the assessment synthesis rules: every competency
+// on a BlackVest profile is graded by HOW it was established, never by how confident it sounds.
+const tiers = [
+  {
+    key: "verified",
+    label: "Verified",
+    body: "Demonstrated under questioning — explained the tradeoffs, debugged it live, or derived it from first principles, and held up when pushed. Or corroborated by real GitHub activity. Using a managed service or running a command doesn't count.",
+  },
+  {
+    key: "observed",
+    label: "Observed",
+    body: "Surfaced credibly from first-hand experience, but wasn't proven in depth. A textbook definition or a name-drop doesn't reach this bar.",
+  },
+  {
+    key: "claimed",
+    label: "Self-reported",
+    body: "Appears on the résumé or intake but was never exercised in the assessment. Shown honestly and marked as unverified — never dressed up as more.",
+  },
+];
+
+const invariants = [
+  {
+    t: "A gap stays a gap",
+    b: "If a skill is disclaimed or only recited from a textbook, it isn't listed as a competency at any tier — it moves to growth areas. Honesty about what you haven't done is never rendered as something you have.",
+  },
+  {
+    t: "Numbers must be real",
+    b: "Scale signals — users, requests, revenue — appear only if they were explicitly stated in the assessment. Nothing is rounded up or inferred.",
+  },
+  {
+    t: "The verified profile is system-locked",
+    b: "You choose what to feature and what to hide, and set your photo, links, and headline. But you can never change a provenance tier or edit the verified content. The grading isn't yours to adjust.",
+  },
+  {
+    t: "The assessment stays private",
+    b: "Internal scores, the admission decision, and interviewer notes are structurally stripped from the public profile — the projection copies an explicit allowlist of fields and nothing else.",
+  },
+];
+---
+<BaseLayout
+  title="How verification works — blackvest"
+  description="Every competency on a BlackVest profile is graded by how it was established — demonstrated, observed first-hand, or only self-reported. Honesty by construction."
+>
+  <Nav />
+
+  <section class="section verify-hero" id="top">
+    <div class="wrap">
+      <span class="eyebrow reveal">Verification</span>
+      <h1 class="verify-hero__h reveal">Graded by evidence, not by confidence.</h1>
+      <p class="lede verify-hero__lede reveal">
+        A BlackVest profile isn't a self-reported résumé. Every candidate goes through a structured
+        deep-skills assessment, and every competency carries a tier that says how it was established.
+        The tiers are the credential — that's what "BlackVest verified" means.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" id="tiers">
+    <div class="wrap">
+      <span class="eyebrow reveal">The three tiers</span>
+      <h2 class="verify__h2 reveal">What each label actually means.</h2>
+      <ol class="tiers__grid">
+        {tiers.map((tier) => (
+          <li class={`tier tier--${tier.key} reveal`}>
+            <span class="tier__mark" aria-hidden="true"></span>
+            <h3 class="tier__label">{tier.label}</h3>
+            <p class="dim tier__body">{tier.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section verify-honesty" id="honesty">
+    <div class="wrap">
+      <span class="eyebrow reveal">Honesty by construction</span>
+      <h2 class="verify__h2 reveal">The rules that make the grade mean something.</h2>
+      <ul class="honesty__list">
+        {invariants.map((rule) => (
+          <li class="honesty__item reveal">
+            <h3 class="honesty__t">{rule.t}</h3>
+            <p class="dim honesty__b">{rule.b}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section verify-close">
+    <div class="wrap">
+      <p class="verify-close__p reveal">
+        The result: a recruiter reading a BlackVest profile sees exactly what's proven, what's
+        credible, and what's only claimed — the opposite of a résumé that asserts everything with
+        equal confidence.
+      </p>
+      <p class="reveal"><a class="verify-close__cta" href={site.showcaseUrl}>See the system, live →</a></p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <span class="footer__brand">{site.name}</span>
+      <nav class="footer__links" aria-label="Links">
+        <a href="/">Home</a>
+        <a href={site.showcaseUrl}>The system, live</a>
+        <a href="https://github.com/DreamwareDevelopment" rel="me">GitHub</a>
+      </nav>
+      <p class="footer__colophon mute">For AI Engineers who want the role they actually want.</p>
+    </div>
+  </footer>
+</BaseLayout>
+
+<style>
+  .verify-hero { padding-block: clamp(3.5rem, 10vh, 7rem) var(--s-12); }
+  .verify-hero__h { font-size: var(--fs-display); line-height: var(--lh-tight); margin-block: var(--s-3) var(--s-6); max-width: 18ch; }
+  .verify-hero__lede { max-width: var(--maxw-prose); }
+  .verify__h2 { font-size: var(--fs-h2); margin-block: var(--s-3) var(--s-8); max-width: 26ch; }
+
+  .tiers__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-6); }
+  @media (max-width: 760px) { .tiers__grid { grid-template-columns: 1fr; } }
+  .tier { background: var(--bg2); border: 1px solid var(--line); border-radius: var(--radius); padding: var(--s-6); display: flex; flex-direction: column; gap: var(--s-3); }
+  .tier__mark { width: .7rem; height: .7rem; border-radius: 50%; }
+  .tier--verified .tier__mark { background: var(--gold); box-shadow: 0 0 0 3px var(--gold-dim); }
+  .tier--observed .tier__mark { background: transparent; border: 1px solid var(--gold); }
+  .tier--claimed .tier__mark { background: var(--mute); }
+  .tier__label { font-size: var(--fs-h3); }
+  .tier--claimed .tier__label { color: var(--dim); }
+  .tier__body { font-size: var(--fs-small); line-height: var(--lh-snug); }
+
+  .honesty__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-6); }
+  @media (max-width: 640px) { .honesty__list { grid-template-columns: 1fr; } }
+  .honesty__item { border-top: 1px solid var(--line); padding-top: var(--s-4); }
+  .honesty__t { font-size: var(--fs-h3); margin-bottom: var(--s-2); }
+  .honesty__b { font-size: var(--fs-small); line-height: var(--lh-snug); max-width: var(--maxw-prose); }
+
+  .verify-close__p { font-size: clamp(1.15rem, 2.2vw, 1.6rem); line-height: var(--lh-snug); max-width: 40ch; margin-bottom: var(--s-6); }
+  .verify-close__cta { font-family: var(--mono); font-size: var(--fs-small); color: var(--gold); }
+
+  .footer { border-top: 1px solid var(--line); padding-block: var(--s-12); margin-top: var(--s-8); }
+  .footer__inner { display: flex; flex-wrap: wrap; gap: var(--s-6); justify-content: space-between; align-items: flex-start; }
+  .footer__brand { font-family: var(--mono); font-weight: 600; }
+  .footer__links { display: flex; gap: var(--s-4); font-family: var(--mono); font-size: var(--fs-small); }
+  .footer__colophon { font-size: .78rem; width: 100%; border-top: 1px solid var(--line2); padding-top: var(--s-4); }
+</style>
