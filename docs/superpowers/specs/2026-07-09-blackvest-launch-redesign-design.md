@@ -33,20 +33,38 @@ black void, gold particles, restrained luxury.
 stills → Seedance image-to-video with pinned first/last frames → seamless ambient loops served as
 full-bleed `<video>` layers. No hand-rolled WebGL figure.
 
-### Asset inventory
+### Asset inventory (founder-approved masters, 2026-07-09 motion-design pass)
 
 | Asset | Status | Use |
 |---|---|---|
-| Figure plate + 8s ambient loop (1080p) | **done** (job `9666a6b6`) | Hero |
-| Vest-weave plate + 8s loop (1080p) | **done** (job `abcc64cf`) | Final CTA / brand moment |
-| Gate plate + 8s loop (1080p) | **done** (job `f03faa81`) | Merit-gate set-piece |
-| Figure **gesture shots**: open palm (mechanic), arms crossed (gate adjacency), slight bow (close) | to generate | Section punctuation |
+| **Hero loop** — figure breathing, internal particle circulation, ember shed, butler's at-ease gesture, 10s pinned loop (job `e2a4b060`, `vidA3-raw.mp4`) | **LOCKED** | Hero |
+| **Loom loop** — still vest, swaying ribbons; B6 take (job `7a88a539`) half-speeded via optical-flow interpolation, chunk-seam frames blended, palindromed at energy minima → 13.8s seamless (`vidB11-loop.mp4`) | **LOCKED** | Final CTA / brand moment |
+| **Threshold loop** — immovable gate, dust in the beam, two god-ray flare breaths, 8s pinned loop (job `ef2aa78f`, `vidC2-raw.mp4`) | **LOCKED** | Merit-gate set-piece |
+| Figure gesture shot: open palm (mechanic section backdrop) | optional, iteration pass 2 | Section punctuation |
 | Mobile treatment: static plates (art-directed crops of the stills) at <720px for v1; 9:16 `reframe` loops are an iteration-pass upgrade if quality holds | to generate | Mobile |
 | OG image (1200×630 from hero plate) | to generate | Social |
 | Poster JPEGs per video | to generate (ffmpeg) | LCP + fallbacks |
 
 All video ships **muted, looped, playsinline**, H.264 MP4 (dark footage compresses to ~0.1–1MB per
 8s at 720p; serve 1080p desktop / 720p small screens). Posters are the graded stills.
+
+### Motion-design system (learned + locked during the footage pass)
+
+- **The camera never moves in footage.** All camera grammar (push-ins, parallax) lives in CSS
+  scroll choreography — deterministic, reversible, and it never compounds with scrolling.
+- **Verb-first physics prompts**: named similes ("embers rise like slow campfire sparks"), one
+  cyclical system + at most one accent event that decays; explicit negative constraints (what must
+  NOT move/appear); never script gestures with everyday-prop associations (wrist → watch).
+- **Loop mechanics**: pinned first/last frames only for gentle non-rotational motion (hero, gate).
+  Rotation or big sway + a pin ⇒ the model snaps/rushes to honor it. For energetic motion:
+  un-pinned take → palindrome between two energy minima (seamless by construction).
+- **Post pipeline** (applied per shot, zero-credit): full-frame whip scan (per-frame diff, flag
+  >1.1) → half-speed via `minterpolate` when tempo is hot → blend-replace Seedance's periodic
+  chunk-seam outlier frames (every 12 source frames) → palindrome. **Never crossfade thin bright
+  structures** (ribbons/beams) — dissolves read as teleports; crossfades are fine on dark diffuse
+  content only.
+- Known platform caveats: Seedance `speedramp:"off"` is silently ignored; expect `speedramp:auto`
+  pacing and correct in post. Chunk-boundary jitter at 12-frame cadence is inherent — scan for it.
 
 ### Brand tokens (recalibrated to the footage)
 
@@ -115,8 +133,8 @@ All video ships **muted, looped, playsinline**, H.264 MP4 (dark footage compress
 
 ## 6. Open questions (for spec review)
 
-1. **Gesture shots** — generate now (3 more Seedance runs) or ship v1 with the three existing loops
-   and add gestures in iteration pass 2? *Recommendation: generate during build; they're cheap.*
+1. **Gesture shots** — RESOLVED 2026-07-09: the hero loop carries its own gesture (the butler's
+   at-ease). One optional open-palm shot for the mechanic section is deferred to iteration pass 2.
 2. **D1 waitlist export** — where should the existing signup emails go before the binding is removed?
    *Recommendation: `wrangler d1 execute … --command "select * from signups"` → founder keeps the CSV;
    the D1 database itself is left alive (unbound) until you delete it.*
