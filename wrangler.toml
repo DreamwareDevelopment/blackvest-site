@@ -1,8 +1,3 @@
 name = "blackvest-site"
 compatibility_date = "2026-05-01"
 pages_build_output_dir = "dist"
-
-[[d1_databases]]
-binding = "DB"
-database_name = "blackvest_waitlist"
-database_id = "dc00557d-0f2e-43bd-83f7-8afff1aeef1a"

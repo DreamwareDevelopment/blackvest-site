@@ -1,0 +1,25 @@
+---
+import SceneVideo from "./SceneVideo.astro";
+import { site } from "../site.config";
+---
+<section class="section final">
+  <SceneVideo
+    name="loom"
+    scrim="center"
+    label="A black vest and bow tie suspended among flowing ribbons of golden light."
+  />
+  <div class="wrap final__in">
+    <span class="eyebrow reveal">Admission</span>
+    <h2 class="final__title reveal">The vest is earned.</h2>
+    <p class="lede final__sub reveal">Take the assessment. If the system can place you, you'll know.</p>
+    <p class="reveal" data-d="1"><a class="btn-p" href={site.funnelUrl}>Start your assessment</a></p>
+    <p class="micro final__micro reveal" data-d="2">Stage 1 is free</p>
+  </div>
+</section>
+<style>
+  .final { min-height:88svh; display:flex; align-items:center; overflow:hidden; text-align:center; }
+  .final__in { position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; gap:var(--s-4); }
+  .final__title { font-size:clamp(2.4rem,5.6vw,4.6rem); }
+  .final__sub { max-width:30rem; }
+  .final__micro { margin-top:var(--s-2); }
+</style>

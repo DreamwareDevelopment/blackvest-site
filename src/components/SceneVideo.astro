@@ -1,0 +1,75 @@
+---
+/**
+ * Full-bleed footage layer. Desktop: lazy-attached looping MP4 (1080p wide /
+ * 720p narrow) with IntersectionObserver play-pause. Mobile (<720px),
+ * reduced-motion, save-data, or no-JS: graded still, zero motion.
+ * The footage is decorative — `label` carries the meaning for screen readers.
+ */
+interface Props {
+  name: "hero" | "gate" | "loom";
+  scrim?: "left" | "center" | "right";
+  label: string;
+  priority?: boolean;
+}
+const { name, scrim = "left", label, priority = false } = Astro.props;
+---
+<div class="scene" data-scene>
+  <picture>
+    <source media="(min-width: 720px)" srcset={`/media/${name}-poster.jpg`} />
+    <img
+      class="scene__still"
+      src={`/media/${name}-mobile.jpg`}
+      alt=""
+      loading={priority ? "eager" : "lazy"}
+      fetchpriority={priority ? "high" : "auto"}
+      decoding="async"
+    />
+  </picture>
+  <video
+    class="scene__video"
+    muted
+    loop
+    playsinline
+    preload="none"
+    poster={`/media/${name}-poster.jpg`}
+    aria-hidden="true"
+    tabindex="-1"
+    data-desktop={`/media/${name}-1080.mp4`}
+    data-narrow={`/media/${name}-720.mp4`}
+  ></video>
+  <div class={`scene__scrim scene__scrim--${scrim}`} aria-hidden="true"></div>
+  <span class="sr-only">{label}</span>
+</div>
+
+<script>
+  // Astro dedupes this module across SceneVideo instances — it runs once.
+  const rm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const conn = (navigator as any).connection; // nonstandard; feature-detect
+  const saveData = !!(conn && conn.saveData);
+  const small = matchMedia("(max-width: 719px)").matches;
+
+  if (rm || saveData || small) {
+    document.querySelectorAll<HTMLElement>("[data-scene]").forEach((s) => s.classList.add("scene--rm"));
+  } else {
+    const narrow = matchMedia("(max-width: 1279px)").matches;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          const v = e.target as HTMLVideoElement;
+          if (e.isIntersecting) {
+            if (!v.currentSrc && !v.src) {
+              v.src = narrow ? v.dataset.narrow! : v.dataset.desktop!;
+              v.load();
+            }
+            const p = v.play();
+            if (p) p.catch(() => {});
+          } else {
+            v.pause();
+          }
+        }
+      },
+      { rootMargin: "30% 0px" }
+    );
+    document.querySelectorAll<HTMLVideoElement>("video.scene__video").forEach((v) => io.observe(v));
+  }
+</script>

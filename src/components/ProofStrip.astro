@@ -5,9 +5,10 @@ import { site } from "../site.config";
   <div class="wrap">
     <span class="eyebrow reveal">Proof, not promises</span>
     <h2 class="proof__title reveal">The system is already running.</h2>
-    <p class="lede prose reveal dim">
-      Not a pitch deck. A live system running one engineer's job search in the
-      open, with its architecture and guardrails on display.
+    <p class="lede proof__lede reveal">
+      Not a pitch deck — a live system running in the open, with its architecture
+      and guardrails on display, and a verification method that grades every claim
+      by how it was established.
     </p>
     <div class="proof__stats reveal">
       {site.proof.map((p) => (
@@ -16,23 +17,21 @@ import { site } from "../site.config";
           <div class="proof__l">{p.label}</div>
         </div>
       ))}
-      <a class="proof__link" href={site.showcaseUrl}>See it work <span aria-hidden="true">&rarr;</span></a>
+    </div>
+    <div class="proof__links reveal" data-d="1">
+      <a href="/verify">How verification works &rarr;</a>
+      <a href={site.showcaseUrl}>See the system, live &rarr;</a>
     </div>
   </div>
 </section>
 <style>
-  .proof__title { font-size: var(--fs-h2); margin-block: var(--s-3) var(--s-4); }
-  .proof__stats { margin-top: var(--s-8); display: flex; flex-wrap: wrap; gap: var(--s-8); align-items: center;
-    border-top: 1px solid var(--line); padding-top: var(--s-8); }
-  .proof__n { font-family: var(--mono); font-size: 1.6rem; color: var(--gold); font-weight: 650; }
-  .proof__l { font-size: var(--fs-small); color: var(--mute); margin-top: .25rem; }
-  .proof__link { margin-left: auto; font-family: var(--mono); font-size: .82rem; border: 1px solid var(--line); border-radius: 100px; padding: .55rem 1.1rem; color: var(--ink); }
-  .proof__link:hover { border-color: var(--gold); text-decoration: none; }
-
-  @media (max-width: 640px) {
-    /* Three stats sit two-up then wrap, and the "See it work" pill drops to
-       its own full-width row instead of floating awkwardly via margin-left. */
-    .proof__stats { gap: var(--s-6) var(--s-8); }
-    .proof__link { margin-left: 0; width: 100%; text-align: center; margin-top: var(--s-2); }
-  }
+  .proof { background:var(--bg2); border-block:1px solid var(--line2); }
+  .proof__title { font-size:var(--fs-h2); margin-block:var(--s-3) var(--s-4); }
+  .proof__lede { max-width:var(--maxw-prose); }
+  .proof__stats { margin-top:var(--s-12); display:flex; flex-wrap:wrap; gap:var(--s-8) var(--s-16);
+    border-top:1px solid var(--line); padding-top:var(--s-8); }
+  .proof__n { font-family:var(--serif); font-size:clamp(2rem,3.4vw,2.8rem); color:var(--gold); }
+  .proof__l { font-size:var(--fs-small); color:var(--mute); margin-top:.25rem; }
+  .proof__links { margin-top:var(--s-8); display:flex; flex-wrap:wrap; gap:var(--s-6);
+    font-family:var(--mono); font-size:.82rem; }
 </style>

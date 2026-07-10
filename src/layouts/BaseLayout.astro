@@ -4,9 +4,10 @@ import { site } from "../site.config";
 
 interface Props { title?: string; description?: string; }
 const {
-  title = `${site.name}: ${site.tagline}`,
-  description = "An agentic system that interviews AI Engineers on merit and helps place them. For engineers who can already get hired and want the role they actually want.",
+  title = `${site.name} — ${site.tagline}`,
+  description = "BlackVest is an agentic placement system that interviews AI Engineers on merit before it goes to work for them. Admission is earned. Stage 1 is free.",
 } = Astro.props;
+const og = `${site.origin}/media/og.jpg`;
 ---
 <!doctype html>
 <html lang="en">
@@ -16,13 +17,20 @@ const {
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={new URL(Astro.url.pathname, site.origin).href} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:image" content={og} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={og} />
+    <meta name="theme-color" content="#050505" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/bodoni-moda-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/bodoni-moda-italic-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body>
+    <a class="skip" href="#main">Skip to content</a>
     <slot />
     <script is:inline>
       document.documentElement.classList.add("js");

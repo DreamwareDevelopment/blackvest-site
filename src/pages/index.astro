@@ -2,17 +2,23 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Nav from "../components/Nav.astro";
 import Hero from "../components/Hero.astro";
-import HowItWorks from "../components/HowItWorks.astro";
+import Mechanic from "../components/Mechanic.astro";
+import MeritGate from "../components/MeritGate.astro";
 import ProofStrip from "../components/ProofStrip.astro";
-import Waitlist from "../components/Waitlist.astro";
+import Membership from "../components/Membership.astro";
+import FinalCta from "../components/FinalCta.astro";
 import { site } from "../site.config";
 ---
 <BaseLayout>
   <Nav />
-  <Hero />
-  <HowItWorks />
-  <ProofStrip />
-  <Waitlist />
+  <main id="main">
+    <Hero />
+    <Mechanic />
+    <MeritGate />
+    <ProofStrip />
+    <Membership />
+    <FinalCta />
+  </main>
   <footer class="footer">
     <div class="wrap footer__inner">
       <span class="footer__brand">{site.name}</span>
@@ -26,9 +32,9 @@ import { site } from "../site.config";
   </footer>
 </BaseLayout>
 <style>
-  .footer { border-top: 1px solid var(--line); padding-block: var(--s-12); margin-top: var(--s-8); }
-  .footer__inner { display: flex; flex-wrap: wrap; gap: var(--s-6); justify-content: space-between; align-items: flex-start; }
-  .footer__brand { font-family: var(--mono); font-weight: 600; }
-  .footer__links { display: flex; gap: var(--s-4); font-family: var(--mono); font-size: var(--fs-small); }
-  .footer__colophon { font-size: .78rem; width: 100%; border-top: 1px solid var(--line2); padding-top: var(--s-4); }
+  .footer { border-top:1px solid var(--line); padding-block:var(--s-12); }
+  .footer__inner { display:flex; flex-wrap:wrap; gap:var(--s-6); justify-content:space-between; align-items:flex-start; }
+  .footer__brand { font-family:var(--mono); font-weight:600; letter-spacing:.14em; text-transform:uppercase; font-size:.82rem; }
+  .footer__links { display:flex; flex-wrap:wrap; gap:var(--s-4); font-family:var(--mono); font-size:var(--fs-small); }
+  .footer__colophon { font-size:.78rem; width:100%; border-top:1px solid var(--line2); padding-top:var(--s-4); }
 </style>
