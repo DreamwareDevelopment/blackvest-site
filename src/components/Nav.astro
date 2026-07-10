@@ -14,7 +14,9 @@ import { site } from "../site.config";
 </header>
 <style>
   .nav { position:sticky; top:0; z-index:50; height:4.5rem; display:flex; align-items:center;
+    background:rgba(5,5,5,.82);
     background:color-mix(in srgb, var(--bg) 72%, transparent);
+    -webkit-backdrop-filter:saturate(140%) blur(10px);
     backdrop-filter:saturate(140%) blur(10px); border-bottom:1px solid var(--line2); }
   .nav__inner { display:flex; align-items:center; justify-content:space-between; }
   .nav__brand { display:inline-flex; align-items:center; gap:.6rem; color:var(--ink);
