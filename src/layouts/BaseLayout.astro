@@ -27,7 +27,9 @@ const og = `${site.origin}/media/og.jpg`;
     <meta name="theme-color" content="#050505" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preload" href="/fonts/bodoni-moda-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/bodoni-moda-italic-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- italic loads via CSS (font-display swap keeps LCP off the critical path); the
+         mobile hero plate is the LCP element on small screens, so it gets the preload -->
+    <link rel="preload" href="/media/hero-mobile.jpg" as="image" media="(max-width: 719px)" fetchpriority="high" />
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
