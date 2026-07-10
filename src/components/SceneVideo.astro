@@ -1,0 +1,104 @@
+---
+/**
+ * Full-bleed footage layer. The graded still is the always-on base plate; on
+ * desktop the looping MP4 (1080p wide / 720p narrow) fades in over it once
+ * playing. Mobile (<720px), reduced-motion, save-data, no-JS, or a user-paused
+ * session: the still alone, zero motion. The footage is decorative — `label`
+ * carries the meaning for screen readers. No `poster` on the <video>: the still
+ * underneath already IS the poster, so we don't double-fetch it (esp. on mobile
+ * where the video never renders).
+ */
+interface Props {
+  name: "hero" | "gate" | "loom";
+  scrim?: "left" | "center" | "right";
+  label: string;
+  priority?: boolean;
+}
+const { name, scrim = "left", label, priority = false } = Astro.props;
+---
+<div class="scene" data-scene>
+  <picture>
+    <source media="(min-width: 720px)" srcset={`/media/${name}-poster.jpg`} />
+    <img
+      class="scene__still"
+      src={`/media/${name}-mobile.jpg`}
+      alt=""
+      loading={priority ? "eager" : "lazy"}
+      fetchpriority={priority ? "high" : "auto"}
+      decoding="async"
+    />
+  </picture>
+  <video
+    class="scene__video"
+    muted
+    loop
+    playsinline
+    preload="none"
+    aria-hidden="true"
+    tabindex="-1"
+    data-desktop={`/media/${name}-1080.mp4`}
+    data-narrow={`/media/${name}-720.mp4`}
+  ></video>
+  <div class={`scene__scrim scene__scrim--${scrim}`} aria-hidden="true"></div>
+  <span class="sr-only">{label}</span>
+</div>
+
+<script>
+  // Astro dedupes this module across SceneVideo instances — it runs once and
+  // governs every scene on the page.
+  if ("IntersectionObserver" in window) {
+    const rm = matchMedia("(prefers-reduced-motion: reduce)");
+    const conn = (navigator as any).connection; // nonstandard; feature-detect
+    const saveData = !!(conn && conn.saveData);
+    const smallMq = matchMedia("(max-width: 719px)");
+    const narrowMq = matchMedia("(max-width: 1279px)");
+    const visible = new Set<HTMLVideoElement>();
+
+    // motion is off for OS/UA preference, small screens, or a user-toggled pause
+    const motionOff = () =>
+      rm.matches || saveData || smallMq.matches ||
+      document.documentElement.classList.contains("motion-paused");
+
+    // width-reactive: re-decided on every apply(), so resizing across the 720px
+    // and 1280px boundaries picks the right rendition / restores video live
+    function apply() {
+      const still = rm.matches || saveData || smallMq.matches;
+      document.querySelectorAll<HTMLElement>("[data-scene]").forEach((s) =>
+        s.classList.toggle("scene--rm", still)
+      );
+      visible.forEach((v) => {
+        if (motionOff()) { v.pause(); return; }
+        if (!v.currentSrc && !v.src) {
+          v.src = narrowMq.matches ? v.dataset.narrow! : v.dataset.desktop!;
+          v.load();
+        }
+        const p = v.play();
+        if (p) p.catch(() => {});
+      });
+    }
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          const v = e.target as HTMLVideoElement;
+          if (e.isIntersecting) visible.add(v);
+          else { visible.delete(v); v.pause(); }
+        }
+        apply();
+      },
+      { rootMargin: "30% 0px" }
+    );
+
+    document.querySelectorAll<HTMLVideoElement>("video.scene__video").forEach((v) => {
+      v.addEventListener("playing", () => v.classList.add("playing"), { once: true });
+      io.observe(v);
+    });
+
+    // re-decide on viewport / preference change (older Safari uses addListener)
+    [smallMq, narrowMq, rm].forEach((mq) =>
+      mq.addEventListener ? mq.addEventListener("change", apply) : (mq as any).addListener(apply)
+    );
+    // the motion toggle (BaseLayout) calls this after flipping .motion-paused
+    (window as any).__bvApplyMotion = apply;
+  }
+</script>

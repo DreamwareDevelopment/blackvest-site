@@ -1,42 +1,41 @@
 ---
+import SceneVideo from "./SceneVideo.astro";
 import { site } from "../site.config";
 ---
 <header class="hero" id="top">
-  <div class="wrap">
-    <span class="eyebrow">Merit-gated · AI Engineers only</span>
+  <SceneVideo
+    name="hero"
+    scrim="left"
+    priority
+    label="A figure formed of golden particles, wearing a black vest and bow tie, stands composed in darkness."
+  />
+  <div class="wrap hero__in">
+    <span class="eyebrow">Merit-gated · AI engineers only</span>
     <h1 class="hero__title">
-      You can already get hired.<br />
-      <span class="hero__g">This is for the role you actually want.</span>
+      You can already get hired.
+      <em>This is for the role you actually want.</em>
     </h1>
-    <p class="lede hero__sub prose">
-      An agentic system that interviews you on <em>merit</em>, then puts its own
-      reputation on the line to place you. You can't buy your way in; passing is
-      the point.
+    <p class="lede hero__sub">
+      BlackVest is an agentic placement system that interviews you on merit before it
+      goes to work for you. Admission is earned — membership begins when the system
+      is confident it can place you.
     </p>
     <div class="hero__cta">
-      <a href="#waitlist" class="btn-p">Request an invite</a>
-      <a href={site.showcaseUrl} class="btn-s">See it work <span style="color:var(--gold)">&rarr;</span></a>
+      <a href={site.funnelUrl} class="btn-p">Start your assessment</a>
+      <a href="#method" class="btn-s">How it works <span style="color:var(--gold)" aria-hidden="true">&rarr;</span></a>
     </div>
-    <p class="hero__micro">No application spam. One authentic identity. Every claim traceable.</p>
+    <p class="micro hero__micro">Stage 1 is free · one authentic identity · every claim traceable</p>
   </div>
 </header>
 <style>
-  .hero { padding-block: clamp(5rem, 16vh, 11rem) clamp(4rem, 9vh, 7rem); }
-  .hero__title { font-size: var(--fs-display); max-width: 16ch; margin-top: var(--s-8); }
-  .hero__g { color: var(--gold); }
-  .hero__sub { margin-top: var(--s-6); max-width: 50ch; }
-  .hero__sub em { color: var(--ink); font-style: normal; }
-  .hero__cta { margin-top: var(--s-8); display: flex; flex-wrap: wrap; gap: var(--s-3); align-items: center; }
-  .hero__micro { margin-top: var(--s-4); font-family: var(--mono); font-size: .72rem; color: var(--mute); letter-spacing: .03em; }
-
-  @media (max-width: 640px) {
-    /* Top padding can shrink hard on a phone — the eyebrow does the spacing. */
-    .hero { padding-block: clamp(3rem, 12vh, 5rem) var(--s-12); }
-    /* Ease the display size down and tighten line-height so the headline
-       reads as a confident block, not three oversized lines hugging the edge. */
-    .hero__title { font-size: clamp(2.1rem, 10.5vw, 3rem); line-height: 1.08; max-width: 100%; margin-top: var(--s-6); }
-    .hero__cta { margin-top: var(--s-6); gap: var(--s-2); }
-    /* Let the micro-reassurance line wrap naturally instead of running off. */
-    .hero__micro { white-space: normal; }
+  .hero { position:relative; min-height:100vh; min-height:100svh; display:flex; align-items:center; overflow:hidden; }
+  .hero__in { position:relative; z-index:2; padding-block:7rem 5rem; }
+  .hero__title { font-size:var(--fs-display); max-width:14ch; margin-top:var(--s-6); }
+  .hero__sub { margin-top:var(--s-6); max-width:34rem; }
+  .hero__cta { margin-top:var(--s-8); display:flex; flex-wrap:wrap; gap:var(--s-3); align-items:center; }
+  .hero__micro { margin-top:var(--s-4); }
+  @media (max-width:719px) {
+    .hero__in { padding-block:5rem 3.5rem; }
+    .hero__title { font-size:clamp(2.2rem,10.5vw,3rem); }
   }
 </style>

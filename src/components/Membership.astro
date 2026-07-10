@@ -1,0 +1,31 @@
+---
+const perks = [
+  { t: "A sourced pipeline", b: "Roles that fit your criteria, found and ranked for you. Quality over volume, always." },
+  { t: "Applications cut to measure", b: "Every application tailored to the posting, grounded in your verified profile. Zero fabricated claims." },
+  { t: "Prep that knows the room", b: "Interview preparation built from the posting, the company, and what you’ve actually proven." },
+  { t: "Your hand on every send", b: "Nothing leaves without your explicit yes. The system does the work; you keep the controls." },
+];
+---
+<section class="section membership" id="membership">
+  <div class="wrap">
+    <span class="eyebrow reveal">Membership</span>
+    <h2 class="mem__title reveal">What the vest gets you.</h2>
+    <ul class="mem__grid">
+      {perks.map((p, i) => (
+        <li class="mem__item reveal" data-d={String((i % 2) + 1)}>
+          <h3>{p.t}</h3>
+          <p class="dim">{p.b}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+<style>
+  .mem__title { font-size:var(--fs-h2); margin-block:var(--s-3) var(--s-12); }
+  .mem__grid { list-style:none; margin:0; padding:0; display:grid;
+    grid-template-columns:repeat(2,1fr); gap:var(--s-8) var(--s-12); }
+  @media (max-width:700px) { .mem__grid { grid-template-columns:1fr; } }
+  .mem__item { border-top:1px solid var(--line); padding-top:var(--s-4); }
+  .mem__item h3 { font-size:var(--fs-h3); margin-bottom:var(--s-2); }
+  .mem__item p { font-size:var(--fs-small); line-height:var(--lh-snug); max-width:44ch; }
+</style>

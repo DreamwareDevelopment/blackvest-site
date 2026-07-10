@@ -9,12 +9,12 @@ const tiers = [
   {
     key: "verified",
     label: "Verified",
-    body: "Demonstrated under questioning — explained the tradeoffs, debugged it live, or derived it from first principles, and held up when pushed. Or corroborated by real GitHub activity. Using a managed service or running a command doesn't count.",
+    body: "Demonstrated under questioning — explained the tradeoffs, debugged it live, or derived it from first principles, and held up when pushed. Or corroborated by real GitHub activity. Using a managed service or running a command doesn’t count.",
   },
   {
     key: "observed",
     label: "Observed",
-    body: "Surfaced credibly from first-hand experience, but wasn't proven in depth. A textbook definition or a name-drop doesn't reach this bar.",
+    body: "Surfaced credibly from first-hand experience, but wasn’t proven in depth. A textbook definition or a name-drop doesn’t reach this bar.",
   },
   {
     key: "claimed",
@@ -26,7 +26,7 @@ const tiers = [
 const invariants = [
   {
     t: "A gap stays a gap",
-    b: "If a skill is disclaimed or only recited from a textbook, it isn't listed as a competency at any tier — it moves to growth areas. Honesty about what you haven't done is never rendered as something you have.",
+    b: "If a skill is disclaimed or only recited from a textbook, it isn’t listed as a competency at any tier — it moves to growth areas. Honesty about what you haven’t done is never rendered as something you have.",
   },
   {
     t: "Numbers must be real",
@@ -34,7 +34,7 @@ const invariants = [
   },
   {
     t: "The verified profile is system-locked",
-    b: "You choose what to feature and what to hide, and set your photo, links, and headline. But you can never change a provenance tier or edit the verified content. The grading isn't yours to adjust.",
+    b: "You choose what to feature and what to hide, and set your photo, links, and headline. But you can never change a provenance tier or edit the verified content. The grading isn’t yours to adjust.",
   },
   {
     t: "The assessment stays private",
@@ -48,14 +48,15 @@ const invariants = [
 >
   <Nav />
 
+  <main id="main">
   <section class="section verify-hero" id="top">
     <div class="wrap">
       <span class="eyebrow reveal">Verification</span>
       <h1 class="verify-hero__h reveal">Graded by evidence, not by confidence.</h1>
       <p class="lede verify-hero__lede reveal">
-        A BlackVest profile isn't a self-reported résumé. Every candidate goes through a structured
+        A BlackVest profile isn’t a self-reported résumé. Every candidate goes through a structured
         deep-skills assessment, and every competency carries a tier that says how it was established.
-        The tiers are the credential — that's what "BlackVest verified" means.
+        The tiers are the credential — that’s what “BlackVest verified” means.
       </p>
     </div>
   </section>
@@ -94,23 +95,28 @@ const invariants = [
   <section class="section verify-close">
     <div class="wrap">
       <p class="verify-close__p reveal">
-        The result: a recruiter reading a BlackVest profile sees exactly what's proven, what's
-        credible, and what's only claimed — the opposite of a résumé that asserts everything with
+        The result: a recruiter reading a BlackVest profile sees exactly what’s proven, what’s
+        credible, and what’s only claimed — the opposite of a résumé that asserts everything with
         equal confidence.
       </p>
-      <p class="reveal"><a class="verify-close__cta" href={site.showcaseUrl}>See the system, live →</a></p>
+      <div class="reveal verify-close__row">
+        <a class="btn-p" href={site.funnelUrl}>Start your assessment</a>
+        <a class="verify-close__cta" href={site.showcaseUrl}>See the system, live →</a>
+      </div>
     </div>
   </section>
+  </main>
 
   <footer class="footer">
     <div class="wrap footer__inner">
       <span class="footer__brand">{site.name}</span>
       <nav class="footer__links" aria-label="Links">
         <a href="/">Home</a>
+        <a href="/#gate">The gate</a>
         <a href={site.showcaseUrl}>The system, live</a>
         <a href="https://github.com/DreamwareDevelopment" rel="me">GitHub</a>
       </nav>
-      <p class="footer__colophon mute">For AI Engineers who want the role they actually want.</p>
+      <p class="footer__colophon dim">For AI Engineers after the role they actually want.</p>
     </div>
   </footer>
 </BaseLayout>
@@ -139,11 +145,12 @@ const invariants = [
   .honesty__b { font-size: var(--fs-small); line-height: var(--lh-snug); max-width: var(--maxw-prose); }
 
   .verify-close__p { font-size: clamp(1.15rem, 2.2vw, 1.6rem); line-height: var(--lh-snug); max-width: 40ch; margin-bottom: var(--s-6); }
+  .verify-close__row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-4); }
   .verify-close__cta { font-family: var(--mono); font-size: var(--fs-small); color: var(--gold); }
 
   .footer { border-top: 1px solid var(--line); padding-block: var(--s-12); margin-top: var(--s-8); }
   .footer__inner { display: flex; flex-wrap: wrap; gap: var(--s-6); justify-content: space-between; align-items: flex-start; }
-  .footer__brand { font-family: var(--mono); font-weight: 600; }
-  .footer__links { display: flex; gap: var(--s-4); font-family: var(--mono); font-size: var(--fs-small); }
+  .footer__brand { font-family: var(--mono); font-weight: 600; letter-spacing: .14em; text-transform: uppercase; font-size: .82rem; }
+  .footer__links { display: flex; flex-wrap: wrap; gap: var(--s-4); font-family: var(--mono); font-size: var(--fs-small); }
   .footer__colophon { font-size: .78rem; width: 100%; border-top: 1px solid var(--line2); padding-top: var(--s-4); }
 </style>

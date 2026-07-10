@@ -1,0 +1,47 @@
+---
+const stages = [
+  {
+    n: "01",
+    t: "Prove it",
+    b: "A free, structured screen assesses how you actually think and build. No fast-track, no shortcut — the only way in is through.",
+  },
+  {
+    n: "02",
+    t: "Go deeper",
+    b: "Clear the screen and the deep assessment begins: a real conversation that scores technical depth, criteria realism, and reachability — the things placement actually depends on.",
+  },
+  {
+    n: "03",
+    t: "The system goes to work",
+    b: "Admitted members get the engine: roles sourced to fit, every application tailored to the posting, prep built from your verified profile. You approve every send.",
+  },
+];
+---
+<section class="section method" id="method">
+  <div class="wrap">
+    <span class="eyebrow reveal">The method</span>
+    <h2 class="method__title reveal">An operator’s system, pointed at your search.</h2>
+    <ol class="method__grid">
+      {stages.map((s, i) => (
+        <li class="method__stage reveal" data-d={String(i + 1)}>
+          <span class="method__n">{s.n}</span>
+          <h3>{s.t}</h3>
+          <p class="dim">{s.b}</p>
+        </li>
+      ))}
+    </ol>
+    <p class="micro method__foot reveal">Appropriate autonomy, human oversight — the exact maturity these roles screen for.</p>
+  </div>
+</section>
+<style>
+  .method__title { font-size:var(--fs-h2); margin-block:var(--s-3) var(--s-12); max-width:24ch; }
+  .method__grid { list-style:none; margin:0; padding:0; display:grid;
+    grid-template-columns:repeat(3,1fr); gap:var(--s-6); }
+  @media (max-width:760px) { .method__grid { grid-template-columns:1fr; } }
+  .method__stage { border-top:1px solid var(--line); padding-top:var(--s-6);
+    display:flex; flex-direction:column; gap:var(--s-3); }
+  .method__n { font-family:var(--mono); font-size:.78rem; color:var(--gold); letter-spacing:.1em; }
+  .method__stage h3 { font-size:var(--fs-h3); }
+  .method__stage p { font-size:var(--fs-small); line-height:var(--lh-snug); max-width:38ch; }
+  .method__foot { margin-top:var(--s-12); }
+</style>

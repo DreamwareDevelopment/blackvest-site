@@ -1,0 +1,29 @@
+---
+import SceneVideo from "./SceneVideo.astro";
+import { site } from "../site.config";
+---
+<section class="section gate" id="gate">
+  <SceneVideo
+    name="gate"
+    scrim="left"
+    label="A colossal dark gate split by a thin blade of golden light; a lone figure stands before it."
+  />
+  <div class="wrap gate__in">
+    <span class="eyebrow reveal">The merit gate</span>
+    <h2 class="gate__title reveal">You can’t buy your way in. <em>Passing is the point.</em></h2>
+    <p class="lede gate__sub reveal">
+      BlackVest admits only candidates it’s confident it can place. Most are declined.
+      That’s what admission means — and why membership is worth having.
+    </p>
+    <p class="micro gate__dims reveal">scored on: technical depth · criteria realism · reachability</p>
+    <p class="reveal" data-d="1"><a class="btn-s gate__cta" href={site.funnelUrl}>Approach the gate <span style="color:var(--gold)" aria-hidden="true">&rarr;</span></a></p>
+  </div>
+</section>
+<style>
+  .gate { min-height:92vh; min-height:92svh; display:flex; align-items:center; overflow:hidden; }
+  .gate__in { position:relative; z-index:2; }
+  .gate__title { font-size:clamp(2.2rem,5vw,4rem); max-width:14ch; margin-top:var(--s-4); }
+  .gate__sub { margin-top:var(--s-6); max-width:30rem; }
+  .gate__dims { margin-top:var(--s-6); color:var(--gold); }
+  .gate__cta { margin-top:var(--s-6); }
+</style>

@@ -4,9 +4,10 @@ import { site } from "../site.config";
 
 interface Props { title?: string; description?: string; }
 const {
-  title = `${site.name}: ${site.tagline}`,
-  description = "An agentic system that interviews AI Engineers on merit and helps place them. For engineers who can already get hired and want the role they actually want.",
+  title = `${site.name} — ${site.tagline}`,
+  description = "BlackVest is an agentic placement system that interviews AI Engineers on merit before it goes to work for them. Admission is earned. Stage 1 is free.",
 } = Astro.props;
+const og = `${site.origin}/media/og.jpg`;
 ---
 <!doctype html>
 <html lang="en">
@@ -16,22 +17,65 @@ const {
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={new URL(Astro.url.pathname, site.origin).href} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:image" content={og} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={og} />
+    <meta name="theme-color" content="#050505" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/bodoni-moda-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- italic loads via CSS (font-display swap keeps LCP off the critical path); the
+         mobile hero plate is the LCP element on small screens, so it gets the preload -->
+    <link rel="preload" href="/media/hero-mobile.jpg" as="image" media="(max-width: 719px)" fetchpriority="high" />
   </head>
   <body>
+    <a class="skip" href="#main">Skip to content</a>
     <slot />
+    <button id="motion-toggle" class="motion-toggle" type="button" hidden aria-pressed="false">
+      <span class="motion-toggle__dot" aria-hidden="true"></span>
+      <span class="motion-toggle__label">Pause motion</span>
+    </button>
     <script is:inline>
-      document.documentElement.classList.add("js");
+      // Reveal-on-scroll. Guard the feature check BEFORE marking the doc as JS-capable,
+      // so a browser without IntersectionObserver never gets the opacity:0 reveal state
+      // stuck with no way to clear it.
       (function () {
+        if (!("IntersectionObserver" in window)) return;
+        document.documentElement.classList.add("js");
         if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
         var io = new IntersectionObserver(function (es) {
           es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
         }, { rootMargin: "0px 0px -10% 0px", threshold: 0.08 });
         document.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
+      })();
+    </script>
+    <script is:inline>
+      // WCAG 2.2.2 — a page control to pause the auto-playing, >5s looping footage.
+      // Only appears when motion is actually running (there are videos and the user
+      // hasn't asked the OS for reduced motion). Choice persists across pages.
+      (function () {
+        var vids = document.querySelectorAll("video.scene__video");
+        var btn = document.getElementById("motion-toggle");
+        if (!vids.length || !btn) return;
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        var KEY = "bv-motion";
+        function read() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+        function write(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
+        function paused() { return read() === "off"; }
+        function sync() {
+          var off = paused();
+          document.documentElement.classList.toggle("motion-paused", off);
+          btn.setAttribute("aria-pressed", String(off));
+          btn.classList.toggle("is-off", off);
+          btn.querySelector(".motion-toggle__label").textContent = off ? "Resume motion" : "Pause motion";
+          if (window.__bvApplyMotion) window.__bvApplyMotion();
+        }
+        btn.hidden = false;
+        btn.addEventListener("click", function () { write(paused() ? "on" : "off"); sync(); });
+        sync();
       })();
     </script>
   </body>

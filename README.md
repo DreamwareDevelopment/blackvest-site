@@ -1,32 +1,29 @@
 # blackvest-site
 
-Marketing front door for **blackvest.ai** (apex). Brand + thesis + waitlist for
-AI Engineers using AI to land AI-Engineering roles. Astro SSG on Cloudflare
-Pages; the waitlist is a Pages Function writing to D1.
+Marketing front door for blackvest.ai — the launch page for the merit-gated
+AI-Engineer placement service. Static Astro site on Cloudflare Pages; every CTA
+routes to the live funnel at https://app.blackvest.ai. No backend, no data capture.
 
-**Scope guardrail:** this page makes NO pricing, guarantee, or "start your
-interview" claims. blackvest.ai's commercial mechanic (ADR-020) has unresolved
-legal questions (refund-guarantee liability, employment-agency licensing); the
-full product/lead-gen page is a later, ADR-gated plan. This page sells the
-thesis + brand and captures interest only.
+Media in `public/media/` are generated footage masters (Higgsfield/Seedance/Kling
+pipeline — see docs/superpowers/specs/2026-07-09-blackvest-launch-redesign-design.md).
 
 Sibling repos: `blackvest-showcase` (the live case study, showcase.blackvest.ai)
 and `blackvest-candidate` (private per-candidate template).
 
-## Develop / build / deploy
+## Develop
 
 ```sh
 npm install
 npm run dev
-npm run build                                   # → dist/
-npx wrangler pages dev dist                     # local, with the Function + D1
 ```
 
-**Deploy:** push to `main` (or merge a PR) — CI/CD deploys to Cloudflare Pages (`blackvest-site`) via the `wrangler-action` `deploy` job in `.github/workflows/ci.yml`. Don't run `wrangler pages deploy` by hand — it bypasses CI + branch protection.
+## Build / deploy
 
-## Waitlist data
-Signups land in the `blackvest_waitlist` D1 database (`signups` table). Email is
-PII: stored only in D1, never logged, never committed.
+```sh
+npm run build    # static output in dist/
+```
 
-## License
-[MIT](LICENSE).
+CI builds on every PR; on push to `main` it deploys `dist/` to Cloudflare Pages
+(project `blackvest-site`, custom domain blackvest.ai) via the `wrangler-action`
+`deploy` job in `.github/workflows/ci.yml`. Don't run `wrangler pages deploy`
+by hand — it bypasses CI + branch protection.
