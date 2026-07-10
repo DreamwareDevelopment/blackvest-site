@@ -44,7 +44,7 @@ a:hover { text-decoration:underline; text-underline-offset:3px; }
 .eyebrow::before { content:""; width:2rem; height:1px; background:var(--gold); }
 .dim { color:var(--dim); } .mute { color:var(--mute); }
 .lede { font-size:clamp(1.05rem,1.7vw,1.3rem); line-height:var(--lh-snug); color:var(--dim); }
-.micro { font-family:var(--mono); font-size:.7rem; letter-spacing:.05em; color:var(--mute); }
+.micro { font-family:var(--mono); font-size:.7rem; letter-spacing:.05em; color:var(--dim); }
 
 .btn-p { background:var(--gold); color:#0a0805; font-weight:600; font-size:.95rem;
   padding:.9rem 1.7rem; border-radius:var(--radius); display:inline-block; border:0; cursor:pointer; }
@@ -85,4 +85,9 @@ a:hover { text-decoration:underline; text-underline-offset:3px; }
 @media (max-width:640px) {
   .section { padding-block:var(--s-16); }
   .btn-p,.btn-s { width:100%; justify-content:center; text-align:center; padding-block:1rem; }
+}
+
+/* mobile: the stills sit closer to the copy — deepen the veil so text always wins */
+@media (max-width:719px) {
+  .scene::after { background:linear-gradient(180deg,rgba(5,5,5,.72),rgba(5,5,5,.52) 30%,rgba(5,5,5,.52) 70%,rgba(5,5,5,.95)); }
 }
