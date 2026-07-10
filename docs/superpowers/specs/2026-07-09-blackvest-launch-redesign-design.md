@@ -38,7 +38,7 @@ full-bleed `<video>` layers. No hand-rolled WebGL figure.
 | Asset | Status | Use |
 |---|---|---|
 | **Hero loop** — figure breathing, internal particle circulation, ember shed, butler's at-ease gesture, 10s pinned loop (job `e2a4b060`, `vidA3-raw.mp4`) | **LOCKED** | Hero |
-| **Loom loop** — still vest, swaying ribbons; B6 take (job `7a88a539`) half-speeded via optical-flow interpolation, chunk-seam frames blended, palindromed at energy minima → 13.8s seamless (`vidB11-loop.mp4`) | **LOCKED** | Final CTA / brand moment |
+| **Loom loop** — still vest, swaying ribbons; **Kling 3.0 pro** take (job `35deebd8`), two cadence outlier frames blended, native-frame palindrome → 19.9s seamless (`vidB14-loop.mp4`). Supersedes the interpolated Seedance builds (founder read optical-flow interpolation as judder — interpolation on thin bright structures is banned). | **LOCKED** | Final CTA / brand moment |
 | **Threshold loop** — immovable gate, dust in the beam, two god-ray flare breaths, 8s pinned loop (job `ef2aa78f`, `vidC2-raw.mp4`) | **LOCKED** | Merit-gate set-piece |
 | Figure gesture shot: open palm (mechanic section backdrop) | optional, iteration pass 2 | Section punctuation |
 | Mobile treatment: static plates (art-directed crops of the stills) at <720px for v1; 9:16 `reframe` loops are an iteration-pass upgrade if quality holds | to generate | Mobile |
@@ -65,6 +65,14 @@ All video ships **muted, looped, playsinline**, H.264 MP4 (dark footage compress
   content only.
 - Known platform caveats: Seedance `speedramp:"off"` is silently ignored; expect `speedramp:auto`
   pacing and correct in post. Chunk-boundary jitter at 12-frame cadence is inherent — scan for it.
+- **Never interpolate thin bright structures** (ribbons, beams): minterpolate output reads as
+  frame-rate judder. Native frames only; slow motion must come from the generator, not post.
+- **Model notes**: Kling 3.0 pro holds constant tempo far better than Seedance (and costs ~1/5th);
+  its own chunk cadence (~0.8s, ~1.6× baseline) is mild and blendable. Prefer Kling for
+  even-tempo ambient shots; Seedance for character performance (the hero's gesture).
+- **Scrollytelling: considered and declined** (founder, 2026-07-10; a scroll-scrubbed gate
+  prototype was built and reviewed). The site uses light choreography only — section reveals and
+  video layers, no pinned scenes, no scroll-scrubbing.
 
 ### Brand tokens (recalibrated to the footage)
 
