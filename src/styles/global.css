@@ -57,12 +57,11 @@ a:hover { text-decoration:underline; text-underline-offset:3px; }
 .scene { position:absolute; inset:0; overflow:hidden; pointer-events:none; background:#000; }
 .scene__video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:none; }
 .scene__still { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+/* the still is the always-on base plate; the video fades in over it when playing */
 @media (min-width:720px) and (prefers-reduced-motion: no-preference) {
   .scene__video { display:block; }
-  .scene:not(.scene--rm) .scene__still { display:none; }
 }
 .scene--rm .scene__video { display:none; }
-.scene--rm .scene__still { display:block; }
 .scene__scrim { position:absolute; inset:0; }
 .scene__scrim--left { background:linear-gradient(90deg,rgba(5,5,5,.9) 18%,rgba(5,5,5,.5) 46%,rgba(5,5,5,.08) 70%); }
 .scene__scrim--right { background:linear-gradient(270deg,rgba(5,5,5,.9) 18%,rgba(5,5,5,.5) 46%,rgba(5,5,5,.08) 70%); }
@@ -71,6 +70,35 @@ a:hover { text-decoration:underline; text-underline-offset:3px; }
 .scene::after { content:""; position:absolute; inset:0;
   background:linear-gradient(180deg,rgba(5,5,5,.55),transparent 18%,transparent 82%,rgba(5,5,5,.92)); }
 
+
+/* ── micro-interactions ───────────────────────────────────────────────── */
+.btn-p, .btn-s, .nav__cta { transition:background .25s var(--ease), border-color .25s var(--ease), transform .25s var(--ease); }
+.btn-p:hover, .btn-s:hover { transform:translateY(-1px); }
+.btn-s span, .gate__cta span { display:inline-block; transition:transform .25s var(--ease); }
+.btn-s:hover span { transform:translateX(3px); }
+.btn-p:focus-visible, .nav__cta:focus-visible { outline:2px solid var(--ink); }
+
+/* scene videos fade in once playing (poster underneath is the same plate) */
+.scene__video { opacity:0; transition:opacity .8s var(--ease); }
+.scene__video.playing { opacity:1; }
+@media (prefers-reduced-motion: reduce) { .scene__video { opacity:1; } }
+
+/* hero entrance — CSS-only, h1 excluded so LCP paints immediately */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes rise { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
+  .hero__in .eyebrow   { animation:rise .8s var(--ease) .15s backwards; }
+  .hero__in .hero__sub  { animation:rise .8s var(--ease) .3s backwards; }
+  .hero__in .hero__cta  { animation:rise .8s var(--ease) .45s backwards; }
+  .hero__in .hero__micro{ animation:rise .8s var(--ease) .6s backwards; }
+}
+
+/* ── film grain: one quiet texture unifying footage and solid ground ──── */
+body::after {
+  content:""; position:fixed; inset:0; z-index:80; pointer-events:none;
+  background:url("data:image/png;base64,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") repeat;
+  background-size:128px 128px;
+  opacity:.05; mix-blend-mode:overlay;
+}
 /* ── reveal choreography (light; no pinning, no scrubbing) ────────────── */
 .reveal { opacity:1; }
 @media (prefers-reduced-motion: no-preference) {

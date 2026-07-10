@@ -70,6 +70,9 @@ const { name, scrim = "left", label, priority = false } = Astro.props;
       },
       { rootMargin: "30% 0px" }
     );
-    document.querySelectorAll<HTMLVideoElement>("video.scene__video").forEach((v) => io.observe(v));
+    document.querySelectorAll<HTMLVideoElement>("video.scene__video").forEach((v) => {
+      v.addEventListener("playing", () => v.classList.add("playing"), { once: true });
+      io.observe(v);
+    });
   }
 </script>
