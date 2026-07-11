@@ -17,12 +17,14 @@ import { site } from "../site.config";
   </div>
 </section>
 <style>
-  .final { min-height:88vh; min-height:88svh; display:flex; align-items:center; overflow:hidden; text-align:center; }
-  .final__in { position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; gap:var(--s-4); }
+  /* a brand sign-off, not a second hero: the Loom is the closing mark, sized like
+     the sections around it (padding-block, not viewport height) so the gate — the
+     thesis section — stays the visual peak of the page */
+  .final { display:flex; align-items:center; overflow:hidden; text-align:center; }
+  .final__in { position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; gap:var(--s-3); padding-block:var(--s-8); }
   /* centered composition: drop the eyebrow's left rule so the label optically centers */
   .final__in .eyebrow::before { display:none; }
-  /* the gate is the thesis section — keep the sign-off from outranking it (both cap at 4rem) */
-  .final__title { font-size:clamp(2.4rem,5.2vw,4rem); text-shadow:0 2px 28px rgba(5,5,5,.6); }
-  .final__sub { max-width:30rem; }
-  .final__micro { margin-top:var(--s-2); }
+  .final__title { font-size:var(--fs-h2); text-shadow:0 2px 20px rgba(5,5,5,.6); }
+  .final__sub { max-width:28rem; }
+  .final__micro { margin-top:var(--s-1); }
 </style>
