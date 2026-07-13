@@ -32,7 +32,10 @@ import { site } from "../site.config";
   </footer>
 </BaseLayout>
 <style>
-  .footer { border-top:1px solid var(--line); padding-block:var(--s-12); }
+  /* no hard top rule — the loom sign-off fades to page-black and flows straight
+     into the footer; a whisper of its gold bleeds down into the footer's top edge */
+  .footer { padding-block:var(--s-12);
+    background:radial-gradient(78% 200px at 50% 0%, rgba(212,175,106,.085), transparent 62%); }
   .footer__inner { display:flex; flex-wrap:wrap; gap:var(--s-6); justify-content:space-between; align-items:flex-start; }
   .footer__brand { font-family:var(--mono); font-weight:600; letter-spacing:.14em; text-transform:uppercase; font-size:.82rem; }
   .footer__links { display:flex; flex-wrap:wrap; gap:var(--s-4); font-family:var(--mono); font-size:var(--fs-small); }
