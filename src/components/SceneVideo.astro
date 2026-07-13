@@ -1,20 +1,27 @@
 ---
 /**
- * Full-bleed footage layer. The graded still is the always-on base plate; on
- * desktop the looping MP4 (1080p wide / 720p narrow) fades in over it once
- * playing. Mobile (<720px), reduced-motion, save-data, no-JS, or a user-paused
- * session: the still alone, zero motion. The footage is decorative — `label`
- * carries the meaning for screen readers. No `poster` on the <video>: the still
- * underneath already IS the poster, so we don't double-fetch it (esp. on mobile
- * where the video never renders).
+ * Full-bleed footage layer. The graded still is the always-on base plate; the
+ * looping MP4 (1080p wide / 720p narrow) fades in over it once playing — at
+ * every width now, phones included. Reduced-motion, save-data, no-JS, or a
+ * user-paused session fall back to the still alone, zero motion. The footage is
+ * decorative — `label` carries the meaning for screen readers. No `poster` on
+ * the <video>: the still underneath already IS the poster, so we don't
+ * double-fetch it.
+ *
+ * `focusX` sets the video's horizontal object-position. The masters are 16:9;
+ * on a portrait phone `object-fit:cover` shows a vertical slice, so a scene
+ * whose subject sits off-centre in the landscape frame (the hero figure lives
+ * right-of-centre) needs its slice nudged to keep the subject framed. Gate and
+ * loom are centre-composed, so they keep the 50% default.
  */
 interface Props {
   name: "hero" | "gate" | "loom";
   scrim?: "left" | "center" | "right";
   label: string;
   priority?: boolean;
+  focusX?: string;
 }
-const { name, scrim = "left", label, priority = false } = Astro.props;
+const { name, scrim = "left", label, priority = false, focusX = "50%" } = Astro.props;
 ---
 <div class="scene" data-scene>
   <picture>
@@ -36,6 +43,7 @@ const { name, scrim = "left", label, priority = false } = Astro.props;
     preload="none"
     aria-hidden="true"
     tabindex="-1"
+    style={`object-position:${focusX} center`}
     data-desktop={`/media/${name}-1080.mp4`}
     data-narrow={`/media/${name}-720.mp4`}
   ></video>
@@ -50,19 +58,19 @@ const { name, scrim = "left", label, priority = false } = Astro.props;
     const rm = matchMedia("(prefers-reduced-motion: reduce)");
     const conn = (navigator as any).connection; // nonstandard; feature-detect
     const saveData = !!(conn && conn.saveData);
-    const smallMq = matchMedia("(max-width: 719px)");
     const narrowMq = matchMedia("(max-width: 1279px)");
     const visible = new Set<HTMLVideoElement>();
 
-    // motion is off for OS/UA preference, small screens, or a user-toggled pause
+    // motion is off for OS/UA preference, a data-saver, or a user-toggled pause
+    // (screen size no longer gates it — phones play the footage too)
     const motionOff = () =>
-      rm.matches || saveData || smallMq.matches ||
+      rm.matches || saveData ||
       document.documentElement.classList.contains("motion-paused");
 
-    // width-reactive: re-decided on every apply(), so resizing across the 720px
-    // and 1280px boundaries picks the right rendition / restores video live
+    // width-reactive: re-decided on every apply(), so resizing across the 1280px
+    // boundary picks the right rendition / restores video live
     function apply() {
-      const still = rm.matches || saveData || smallMq.matches;
+      const still = rm.matches || saveData;
       document.querySelectorAll<HTMLElement>("[data-scene]").forEach((s) =>
         s.classList.toggle("scene--rm", still)
       );
@@ -95,7 +103,7 @@ const { name, scrim = "left", label, priority = false } = Astro.props;
     });
 
     // re-decide on viewport / preference change (older Safari uses addListener)
-    [smallMq, narrowMq, rm].forEach((mq) =>
+    [narrowMq, rm].forEach((mq) =>
       mq.addEventListener ? mq.addEventListener("change", apply) : (mq as any).addListener(apply)
     );
     // the motion toggle (BaseLayout) calls this after flipping .motion-paused

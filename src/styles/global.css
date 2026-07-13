@@ -57,8 +57,10 @@ a:hover { text-decoration:underline; text-underline-offset:3px; }
 .scene { position:absolute; inset:0; overflow:hidden; pointer-events:none; background:#000; }
 .scene__video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:none; }
 .scene__still { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
-/* the still is the always-on base plate; the video fades in over it when playing */
-@media (min-width:720px) and (prefers-reduced-motion: no-preference) {
+/* the still is the always-on base plate; the video fades in over it when playing.
+   Video plays at EVERY width now, phones included — the JS marks a scene
+   .scene--rm (still only) for reduced-motion / save-data / user-paused. */
+@media (prefers-reduced-motion: no-preference) {
   .scene__video { display:block; }
 }
 .scene--rm .scene__video { display:none; }
