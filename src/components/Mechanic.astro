@@ -34,6 +34,14 @@ const stages = [
   </div>
 </section>
 <style>
+  /* connective tissue: the hero figure's gold bleeds down into this section's top
+     (anchored at 66%, under the figure), and a fainter warmth rises at the bottom
+     to meet the gate below — so footage and copy read as one continuous space */
+  .method {
+    background:
+      radial-gradient(130% 260px at 66% 0%, rgba(212,175,106,.14), transparent 66%),
+      radial-gradient(96% 200px at 50% 100%, rgba(212,175,106,.078), transparent 64%);
+  }
   .method__title { font-size:var(--fs-h2); margin-block:var(--s-3) var(--s-12); max-width:24ch; }
   .method__grid { list-style:none; margin:0; padding:0; display:grid;
     grid-template-columns:repeat(3,1fr); gap:var(--s-6); }

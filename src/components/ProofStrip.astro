@@ -25,7 +25,14 @@ import { site } from "../site.config";
   </div>
 </section>
 <style>
-  .proof { background:var(--bg2); border-block:1px solid var(--line2); }
+  /* a soft tonal beat, not a bordered card: page-black at the edges so it melts
+     into the sections above/below, lifting to the panel tone only in the middle.
+     The gate beam's gold bleeds down into the top edge (connective tissue). */
+  .proof {
+    background:
+      radial-gradient(90% 240px at 50% 0%, rgba(212,175,106,.112), transparent 62%),
+      linear-gradient(180deg, var(--bg) 0%, var(--bg2) 24%, var(--bg2) 76%, var(--bg) 100%);
+  }
   .proof__title { font-size:var(--fs-h2); margin-block:var(--s-3) var(--s-4); }
   .proof__lede { max-width:var(--maxw-prose); }
   .proof__stats { margin-top:var(--s-12); display:flex; flex-wrap:wrap; gap:var(--s-8) var(--s-16);

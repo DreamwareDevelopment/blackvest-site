@@ -68,9 +68,10 @@ a:hover { text-decoration:underline; text-underline-offset:3px; }
 .scene__scrim--left { background:linear-gradient(90deg,rgba(5,5,5,.9) 18%,rgba(5,5,5,.5) 46%,rgba(5,5,5,.08) 70%); }
 .scene__scrim--right { background:linear-gradient(270deg,rgba(5,5,5,.9) 18%,rgba(5,5,5,.5) 46%,rgba(5,5,5,.08) 70%); }
 .scene__scrim--center { background:linear-gradient(180deg,rgba(5,5,5,.7),rgba(5,5,5,.3) 34%,rgba(5,5,5,.3) 62%,rgba(5,5,5,.88)); }
-/* every scene fades into the page ground at its edges */
+/* every scene fades into the page ground at its edges — the bottom reaches FULL
+   page-black so each footage section lands cleanly on the next, no seam */
 .scene::after { content:""; position:absolute; inset:0;
-  background:linear-gradient(180deg,rgba(5,5,5,.55),transparent 18%,transparent 82%,rgba(5,5,5,.92)); }
+  background:linear-gradient(180deg,rgba(5,5,5,.55),transparent 17%,transparent 72%,var(--bg) 100%); }
 
 
 /* ── micro-interactions ───────────────────────────────────────────────── */
@@ -130,7 +131,7 @@ body::after {
    Tuned against the gate (the worst case: bright beam directly behind copy). */
 @media (max-width:719px) {
   .scene__scrim { background:linear-gradient(180deg,rgba(5,5,5,.5),rgba(5,5,5,.32) 42%,rgba(5,5,5,.22) 70%,rgba(5,5,5,.55)); }
-  .scene::after { background:linear-gradient(180deg,rgba(5,5,5,.4),transparent 24%,transparent 74%,rgba(5,5,5,.72)); }
+  .scene::after { background:linear-gradient(180deg,rgba(5,5,5,.4),transparent 22%,transparent 68%,var(--bg) 100%); }
   .hero__in h1, .hero__in p, .hero__in .eyebrow,
   .gate__in h2, .gate__in p, .gate__in .eyebrow,
   .final__in h2, .final__in p, .final__in .eyebrow {
