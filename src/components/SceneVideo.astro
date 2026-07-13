@@ -1,18 +1,20 @@
 ---
 /**
- * Full-bleed footage layer. The graded still is the always-on base plate; the
- * looping MP4 (1080p wide / 720p narrow) fades in over it once playing — at
- * every width now, phones included. Reduced-motion, save-data, no-JS, or a
- * user-paused session fall back to the still alone, zero motion. The footage is
- * decorative — `label` carries the meaning for screen readers. No `poster` on
- * the <video>: the still underneath already IS the poster, so we don't
- * double-fetch it.
+ * Full-bleed footage layer. The still IS the poster (frame 0 of the master),
+ * shown as the always-on base plate; the looping MP4 (1080p wide / 720p narrow)
+ * fades in over it once playing — at every width, phones included. Because the
+ * still and the video are the SAME frame at the SAME `object-position`, the
+ * fade-in is pixel-aligned: the figure never jumps or reframes, it just comes
+ * alive. Reduced-motion, save-data, no-JS, or a user-paused session fall back
+ * to the still alone, zero motion. The footage is decorative — `label` carries
+ * the meaning for screen readers.
  *
- * `focusX` sets the video's horizontal object-position. The masters are 16:9;
- * on a portrait phone `object-fit:cover` shows a vertical slice, so a scene
- * whose subject sits off-centre in the landscape frame (the hero figure lives
- * right-of-centre) needs its slice nudged to keep the subject framed. Gate and
- * loom are centre-composed, so they keep the 50% default.
+ * `focusX` sets the horizontal object-position of BOTH the still and the video
+ * (kept in lockstep — see above). The masters are 16:9; on a portrait phone
+ * `object-fit:cover` shows a vertical slice, so a scene whose subject sits
+ * off-centre in the landscape frame (the hero figure lives right-of-centre)
+ * needs its slice nudged to keep the subject framed. Gate and loom are
+ * centre-composed, so they keep the 50% default.
  */
 interface Props {
   name: "hero" | "gate" | "loom";
@@ -24,17 +26,15 @@ interface Props {
 const { name, scrim = "left", label, priority = false, focusX = "50%" } = Astro.props;
 ---
 <div class="scene" data-scene>
-  <picture>
-    <source media="(min-width: 720px)" srcset={`/media/${name}-poster.jpg`} />
-    <img
-      class="scene__still"
-      src={`/media/${name}-mobile.jpg`}
-      alt=""
-      loading={priority ? "eager" : "lazy"}
-      fetchpriority={priority ? "high" : "auto"}
-      decoding="async"
-    />
-  </picture>
+  <img
+    class="scene__still"
+    src={`/media/${name}-poster.jpg`}
+    alt=""
+    loading={priority ? "eager" : "lazy"}
+    fetchpriority={priority ? "high" : "auto"}
+    decoding="async"
+    style={`object-position:${focusX} center`}
+  />
   <video
     class="scene__video"
     muted
