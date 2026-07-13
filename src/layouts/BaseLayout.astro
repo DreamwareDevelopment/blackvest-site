@@ -53,6 +53,37 @@ const og = `${site.origin}/media/og.jpg`;
       })();
     </script>
     <script is:inline>
+      // Nav auto-hide: while any full-size CTA ([data-cta] — the hero + final
+      // "Start your assessment" buttons) is on screen, tuck the nav away (its
+      // mini-CTA is redundant then); reveal it once they scroll off. This runs
+      // end-of-body (after render-blocking CSS, before first paint) so the nav
+      // renders already-tucked at load — no flash. `inert` drops the hidden nav
+      // from tab order / a11y tree. Independent of reduced-motion (functional,
+      // not decorative); the global reduced-motion rule just removes the slide.
+      (function () {
+        if (!("IntersectionObserver" in window)) return;
+        var nav = document.querySelector(".nav");
+        var ctas = Array.prototype.slice.call(document.querySelectorAll("[data-cta]"));
+        if (!nav || !ctas.length) return;
+        function setTuck(t) { nav.classList.toggle("is-tucked", t); nav.toggleAttribute("inert", t); }
+        var prev = nav.style.transition;
+        nav.style.transition = "none";
+        setTuck(ctas.some(function (el) {
+          var r = el.getBoundingClientRect();
+          return r.top < window.innerHeight && r.bottom > 0;
+        }));
+        requestAnimationFrame(function () { nav.style.transition = prev; });
+        var visible = new Set();
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) visible.add(e.target); else visible.delete(e.target);
+          });
+          setTuck(visible.size > 0);
+        });
+        ctas.forEach(function (c) { io.observe(c); });
+      })();
+    </script>
+    <script is:inline>
       // WCAG 2.2.2 — a page control to pause the auto-playing, >5s looping footage.
       // Only appears when motion is actually running (there are videos and the user
       // hasn't asked the OS for reduced motion). Choice persists across pages.

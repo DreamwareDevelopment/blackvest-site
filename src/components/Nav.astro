@@ -16,11 +16,16 @@ import { site } from "../site.config";
   </div>
 </header>
 <style>
-  .nav { position:sticky; top:0; z-index:50; height:4.5rem; display:flex; align-items:center;
+  .nav { position:fixed; inset:0 0 auto 0; z-index:50; height:4.5rem; display:flex; align-items:center;
     background:rgba(5,5,5,.82);
     background:color-mix(in srgb, var(--bg) 72%, transparent);
     -webkit-backdrop-filter:saturate(140%) blur(10px);
-    backdrop-filter:saturate(140%) blur(10px); border-bottom:1px solid var(--line2); }
+    backdrop-filter:saturate(140%) blur(10px); border-bottom:1px solid var(--line2);
+    transition:transform .35s var(--ease); will-change:transform; }
+  /* Tucked away while a full "Start your assessment" CTA is on screen — the nav's
+     own mini-CTA is redundant then. Revealed once the CTA scrolls off. Toggled by
+     the script below; `inert` also drops it from tab order / a11y tree while hidden. */
+  .nav.is-tucked { transform:translateY(-100%); }
   .nav__inner { display:flex; align-items:center; justify-content:space-between; }
   .nav__brand { display:inline-flex; align-items:center; gap:.6rem; color:var(--ink);
     font-family:var(--mono); font-weight:600; letter-spacing:.14em; text-transform:uppercase; font-size:.82rem; }
