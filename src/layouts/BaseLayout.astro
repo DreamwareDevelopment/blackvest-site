@@ -60,27 +60,43 @@ const og = `${site.origin}/media/og.jpg`;
       // renders already-tucked at load — no flash. `inert` drops the hidden nav
       // from tab order / a11y tree. Independent of reduced-motion (functional,
       // not decorative); the global reduced-motion rule just removes the slide.
+      //
+      // Stateless recompute on scroll/resize (rAF-throttled) rather than a
+      // stateful IntersectionObserver + Set: a missed IO callback could leave a
+      // phantom entry in the Set so the nav never revealed (the mobile bug this
+      // replaces). Reading getBoundingClientRect fresh each frame can't wedge,
+      // and `scroll` fires reliably on every browser where IO edge-cases don't.
       (function () {
-        if (!("IntersectionObserver" in window)) return;
         var nav = document.querySelector(".nav");
         var ctas = Array.prototype.slice.call(document.querySelectorAll("[data-cta]"));
         if (!nav || !ctas.length) return;
-        function setTuck(t) { nav.classList.toggle("is-tucked", t); nav.toggleAttribute("inert", t); }
+        function anyCtaOnScreen() {
+          for (var i = 0; i < ctas.length; i++) {
+            var r = ctas[i].getBoundingClientRect();
+            if (r.bottom > 0 && r.top < window.innerHeight) return true;
+          }
+          return false;
+        }
+        function apply() {
+          var t = anyCtaOnScreen();
+          nav.classList.toggle("is-tucked", t);
+          nav.toggleAttribute("inert", t);
+        }
+        // initial state without a slide-on-load, then restore the transition
         var prev = nav.style.transition;
         nav.style.transition = "none";
-        setTuck(ctas.some(function (el) {
-          var r = el.getBoundingClientRect();
-          return r.top < window.innerHeight && r.bottom > 0;
-        }));
+        apply();
         requestAnimationFrame(function () { nav.style.transition = prev; });
-        var visible = new Set();
-        var io = new IntersectionObserver(function (entries) {
-          entries.forEach(function (e) {
-            if (e.isIntersecting) visible.add(e.target); else visible.delete(e.target);
-          });
-          setTuck(visible.size > 0);
-        });
-        ctas.forEach(function (c) { io.observe(c); });
+        // recompute on scroll/resize + after late layout shifts (fonts, media)
+        var ticking = false;
+        function onChange() {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(function () { ticking = false; apply(); });
+        }
+        addEventListener("scroll", onChange, { passive: true });
+        addEventListener("resize", onChange, { passive: true });
+        addEventListener("load", onChange);
       })();
     </script>
     <script is:inline>
