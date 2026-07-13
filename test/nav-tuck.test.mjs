@@ -1,85 +1,78 @@
 // Verifies the SHIPPED nav auto-hide logic by extracting the inline IIFE from
-// the built dist/index.html and running it against a mocked DOM + a controllable
-// IntersectionObserver. Proves: (1) initial sync state, (2) reveal when no CTA
-// intersects, (3) re-tuck when a CTA intersects again — the callback wiring the
-// automation browser couldn't exercise (it won't scroll the page).
+// the built dist/index.html and running it against a mocked DOM. Drives the
+// stateless scroll handler by moving the CTAs on/off screen and firing 'scroll'.
+// Proves: (1) initial tuck at load, (2) REVEAL when the hero CTA scrolls off and
+// no CTA is on screen (the mobile bug this fixes), (3) re-tuck at the final CTA,
+// (4) reveal again past it.
 import { readFileSync } from "node:fs";
 import vm from "node:vm";
 
 const html = readFileSync(process.argv[2], "utf8");
-// pick the inline <script> block that actually carries the tuck logic
 const scripts = [...html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)].map((m) => m[1]);
-const scriptText = scripts.find((s) => s.includes("is-tucked") && s.includes("setTuck"));
+const scriptText = scripts.find((s) => s.includes("is-tucked") && s.includes("anyCtaOnScreen"));
 if (!scriptText) { console.error("FAIL: could not locate nav-tuck script in built HTML"); process.exit(1); }
 
 // ---- mock DOM ------------------------------------------------------------
-let ioCallback = null;
 class FakeClassList {
   constructor() { this.set = new Set(); }
   toggle(c, on) { on ? this.set.add(c) : this.set.delete(c); }
   contains(c) { return this.set.has(c); }
 }
-function makeEl(onScreen) {
+function makeEl(rect) {
   return {
-    classList: new FakeClassList(),
-    style: { transition: "" },
-    _inert: false,
-    _rect: onScreen ? { top: 100, bottom: 160 } : { top: 5000, bottom: 5060 },
+    classList: new FakeClassList(), style: { transition: "" }, _inert: false, _rect: rect,
     toggleAttribute(name, on) { if (name === "inert") this._inert = !!on; },
     getBoundingClientRect() { return this._rect; },
   };
 }
-const nav = makeEl(false);
-const heroCta = makeEl(true);   // hero CTA visible at load
-const finalCta = makeEl(false); // final CTA far below at load
+const ON = { top: 100, bottom: 160 };      // within the 800px viewport
+const OFF_ABOVE = { top: -500, bottom: -440 };
+const OFF_BELOW = { top: 5000, bottom: 5060 };
+const nav = makeEl(ON);
+const heroCta = makeEl(ON);
+const finalCta = makeEl(OFF_BELOW);
 
-const doc = {
-  querySelector: (s) => (s === ".nav" ? nav : null),
-  querySelectorAll: (s) => (s === "[data-cta]" ? [heroCta, finalCta] : []),
-};
+const handlers = {};
 const sandbox = {
-  window: { innerHeight: 800, IntersectionObserver: true },
-  document: doc,
-  requestAnimationFrame: (fn) => fn(),
-  IntersectionObserver: class {
-    constructor(cb) { ioCallback = cb; }
-    observe() {}
+  window: { innerHeight: 800 },
+  document: {
+    querySelector: (s) => (s === ".nav" ? nav : null),
+    querySelectorAll: (s) => (s === "[data-cta]" ? [heroCta, finalCta] : []),
   },
-  Set,
-  Array,
+  requestAnimationFrame: (fn) => fn(),
+  addEventListener: (type, fn) => { (handlers[type] ||= []).push(fn); },
 };
+sandbox.window.addEventListener = sandbox.addEventListener;
 sandbox.window.requestAnimationFrame = sandbox.requestAnimationFrame;
 vm.createContext(sandbox);
 vm.runInContext(scriptText, sandbox);
 
-// ---- drive + assert ------------------------------------------------------
+const scroll = () => (handlers.scroll || []).forEach((fn) => fn());
 const results = [];
-const check = (name, cond) => { results.push([name, cond]); };
+const check = (name, cond) => results.push([name, cond]);
 
 // 1. initial: hero CTA on screen -> tucked
 check("initial: nav tucked while hero CTA on screen", nav.classList.contains("is-tucked") === true);
 check("initial: hidden nav is inert", nav._inert === true);
+check("scroll handler registered", (handlers.scroll || []).length > 0);
 
-// 2. scroll past both CTAs (neither intersects) -> revealed
-ioCallback([
-  { target: heroCta, isIntersecting: false },
-  { target: finalCta, isIntersecting: false },
-]);
-check("mid-page: nav revealed when no CTA on screen", nav.classList.contains("is-tucked") === false);
+// 2. scroll past hero (nothing on screen) -> REVEAL  (the reported bug)
+heroCta._rect = OFF_ABOVE;
+scroll();
+check("mid-page: nav REVEALED once hero CTA scrolls off", nav.classList.contains("is-tucked") === false);
 check("mid-page: revealed nav not inert", nav._inert === false);
 
-// 3. final CTA scrolls into view -> re-tucked
-ioCallback([{ target: finalCta, isIntersecting: true }]);
+// 3. final CTA scrolls into view -> re-tuck
+finalCta._rect = ON;
+scroll();
 check("bottom: nav re-tucks when final CTA on screen", nav.classList.contains("is-tucked") === true);
 
-// 4. final CTA leaves again -> revealed
-ioCallback([{ target: finalCta, isIntersecting: false }]);
+// 4. final CTA leaves -> reveal again
+finalCta._rect = OFF_ABOVE;
+scroll();
 check("after: nav revealed again once final CTA leaves", nav.classList.contains("is-tucked") === false);
 
 let ok = true;
-for (const [name, cond] of results) {
-  console.log(`${cond ? "PASS" : "FAIL"}  ${name}`);
-  if (!cond) ok = false;
-}
+for (const [name, cond] of results) { console.log(`${cond ? "PASS" : "FAIL"}  ${name}`); if (!cond) ok = false; }
 console.log(ok ? "\nALL PASS — shipped nav-tuck logic verified" : "\nFAILED");
 process.exit(ok ? 0 : 1);
