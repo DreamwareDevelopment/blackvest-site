@@ -117,8 +117,17 @@ body::after {
   .btn-p,.btn-s { width:100%; justify-content:center; text-align:center; padding-block:1rem; }
 }
 
-/* mobile: the stills sit closer to the copy — deepen the veil so text always wins */
+/* Mobile veil. The directional scrims (--left/--right/--center) are composed for
+   the DESKTOP 16:9 frame — text on one side, subject on the other. On a narrow
+   portrait screen the copy column is centered and full-width, so it lands on the
+   brightest part of the plate (the gate's light blade, the loom's vest) exactly
+   where --left has already cleared to 8%. Below the still/video breakpoint we
+   replace the directional gradient with a strong full-bleed vertical veil and
+   knock the plate's luminance down, so headline + body always out-contrast the
+   footage. Tuned against the gate (the worst case) at 375px. */
 @media (max-width:719px) {
+  .scene__still { filter:brightness(.6) saturate(1.05); }
+  .scene__scrim { background:linear-gradient(180deg,rgba(5,5,5,.9),rgba(5,5,5,.76) 34%,rgba(5,5,5,.68) 62%,rgba(5,5,5,.88)); }
   .scene::after { background:linear-gradient(180deg,rgba(5,5,5,.72),rgba(5,5,5,.52) 30%,rgba(5,5,5,.52) 70%,rgba(5,5,5,.95)); }
 }
 
