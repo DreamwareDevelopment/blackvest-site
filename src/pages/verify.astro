@@ -122,7 +122,8 @@ const invariants = [
 </BaseLayout>
 
 <style>
-  .verify-hero { padding-block: clamp(3.5rem, 10vh, 7rem) var(--s-12); }
+  /* min clears the 4.5rem fixed nav (which no longer reserves flow space) + breathing room */
+  .verify-hero { padding-block: clamp(6rem, 10vh, 7rem) var(--s-12); }
   .verify-hero__h { font-size: var(--fs-display); line-height: var(--lh-tight); margin-block: var(--s-3) var(--s-6); max-width: 18ch; }
   .verify-hero__lede { max-width: var(--maxw-prose); }
   .verify__h2 { font-size: var(--fs-h2); margin-block: var(--s-3) var(--s-8); max-width: 26ch; }
