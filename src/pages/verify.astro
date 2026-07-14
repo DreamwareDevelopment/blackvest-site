@@ -9,7 +9,7 @@ const tiers = [
   {
     key: "verified",
     label: "Verified",
-    body: "Demonstrated under questioning — explained the tradeoffs, debugged it live, or derived it from first principles, and held up when pushed. Or corroborated by real GitHub activity. Using a managed service or running a command doesn’t count.",
+    body: "Demonstrated under questioning: explained the tradeoffs, debugged it live, or derived it from first principles, and held up when pushed. Or corroborated by real GitHub activity. Using a managed service or running a command doesn’t count.",
   },
   {
     key: "observed",
@@ -19,18 +19,18 @@ const tiers = [
   {
     key: "claimed",
     label: "Self-reported",
-    body: "Appears on the résumé or intake but was never exercised in the assessment. Shown honestly and marked as unverified — never dressed up as more.",
+    body: "Appears on the résumé or intake but was never exercised in the assessment. Shown honestly and marked as unverified, never dressed up as more.",
   },
 ];
 
 const invariants = [
   {
     t: "A gap stays a gap",
-    b: "If a skill is disclaimed or only recited from a textbook, it isn’t listed as a competency at any tier — it moves to growth areas. Honesty about what you haven’t done is never rendered as something you have.",
+    b: "If a skill is disclaimed or only recited from a textbook, it isn’t listed as a competency at any tier. It moves to growth areas. Honesty about what you haven’t done is never rendered as something you have.",
   },
   {
     t: "Numbers must be real",
-    b: "Scale signals — users, requests, revenue — appear only if they were explicitly stated in the assessment. Nothing is rounded up or inferred.",
+    b: "Scale signals (users, requests, revenue) appear only if they were explicitly stated in the assessment. Nothing is rounded up or inferred.",
   },
   {
     t: "The verified profile is system-locked",
@@ -38,13 +38,13 @@ const invariants = [
   },
   {
     t: "The assessment stays private",
-    b: "Internal scores, the admission decision, and interviewer notes are structurally stripped from the public profile — the projection copies an explicit allowlist of fields and nothing else.",
+    b: "Internal scores, the admission decision, and interviewer notes are structurally stripped from the public profile. The projection copies an explicit allowlist of fields and nothing else.",
   },
 ];
 ---
 <BaseLayout
-  title="How verification works — blackvest"
-  description="Every competency on a BlackVest profile is graded by how it was established — demonstrated, observed first-hand, or only self-reported. Honesty by construction."
+  title="How verification works · blackvest"
+  description="Every competency on a BlackVest profile is graded by how it was established: demonstrated, observed first-hand, or only self-reported. Honesty by construction."
 >
   <Nav />
 
@@ -56,7 +56,7 @@ const invariants = [
       <p class="lede verify-hero__lede reveal">
         A BlackVest profile isn’t a self-reported résumé. Every candidate goes through a structured
         deep-skills assessment, and every competency carries a tier that says how it was established.
-        The tiers are the credential — that’s what “BlackVest verified” means.
+        The tiers are the credential. That’s what “BlackVest verified” means.
       </p>
     </div>
   </section>
@@ -96,7 +96,7 @@ const invariants = [
     <div class="wrap">
       <p class="verify-close__p reveal">
         The result: a recruiter reading a BlackVest profile sees exactly what’s proven, what’s
-        credible, and what’s only claimed — the opposite of a résumé that asserts everything with
+        credible, and what’s only claimed: the opposite of a résumé that asserts everything with
         equal confidence.
       </p>
       <div class="reveal verify-close__row">

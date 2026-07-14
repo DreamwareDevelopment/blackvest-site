@@ -4,7 +4,7 @@ import { site } from "../site.config";
 
 interface Props { title?: string; description?: string; }
 const {
-  title = `${site.name} — ${site.tagline}`,
+  title = `${site.name} · ${site.tagline}`,
   description = "BlackVest is an agentic placement system that interviews AI Engineers on merit before it goes to work for them. Admission is earned. Stage 1 is free.",
 } = Astro.props;
 const og = `${site.origin}/media/og.jpg`;
@@ -53,11 +53,11 @@ const og = `${site.origin}/media/og.jpg`;
       })();
     </script>
     <script is:inline>
-      // Nav auto-hide: while any full-size CTA ([data-cta] — the hero + final
+      // Nav auto-hide: while any full-size CTA ([data-cta], the hero + final
       // "Start your assessment" buttons) is on screen, tuck the nav away (its
       // mini-CTA is redundant then); reveal it once they scroll off. This runs
       // end-of-body (after render-blocking CSS, before first paint) so the nav
-      // renders already-tucked at load — no flash. `inert` drops the hidden nav
+      // renders already-tucked at load, no flash. `inert` drops the hidden nav
       // from tab order / a11y tree. Independent of reduced-motion (functional,
       // not decorative); the global reduced-motion rule just removes the slide.
       //
@@ -100,7 +100,7 @@ const og = `${site.origin}/media/og.jpg`;
       })();
     </script>
     <script is:inline>
-      // WCAG 2.2.2 — a page control to pause the auto-playing, >5s looping footage.
+      // WCAG 2.2.2: a page control to pause the auto-playing, >5s looping footage.
       // Only appears when motion is actually running (there are videos and the user
       // hasn't asked the OS for reduced motion). Choice persists across pages.
       (function () {
