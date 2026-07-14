@@ -60,6 +60,8 @@ const { name, scrim = "left", label, priority = false, focusX = "50%" } = Astro.
     const saveData = !!(conn && conn.saveData);
     const narrowMq = matchMedia("(max-width: 1279px)");
     const visible = new Set<HTMLVideoElement>();
+    // Footage plays at half speed — a calmer, more luxurious drift (founder pref).
+    const PLAYBACK_RATE = 0.5;
 
     // motion is off only for an OS/UA reduced-motion preference or a data-saver
     // (screen size no longer gates it; phones play the footage too)
@@ -78,6 +80,7 @@ const { name, scrim = "left", label, priority = false, focusX = "50%" } = Astro.
           v.src = narrowMq.matches ? v.dataset.narrow! : v.dataset.desktop!;
           v.load();
         }
+        v.playbackRate = PLAYBACK_RATE; // reassert after any load() reset
         const p = v.play();
         if (p) p.catch(() => {});
       });
@@ -96,6 +99,7 @@ const { name, scrim = "left", label, priority = false, focusX = "50%" } = Astro.
     );
 
     document.querySelectorAll<HTMLVideoElement>("video.scene__video").forEach((v) => {
+      v.defaultPlaybackRate = PLAYBACK_RATE; // the rate the resource loads at
       v.addEventListener("playing", () => v.classList.add("playing"), { once: true });
       io.observe(v);
     });
