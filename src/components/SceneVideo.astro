@@ -61,11 +61,9 @@ const { name, scrim = "left", label, priority = false, focusX = "50%" } = Astro.
     const narrowMq = matchMedia("(max-width: 1279px)");
     const visible = new Set<HTMLVideoElement>();
 
-    // motion is off for OS/UA preference, a data-saver, or a user-toggled pause
-    // (screen size no longer gates it — phones play the footage too)
-    const motionOff = () =>
-      rm.matches || saveData ||
-      document.documentElement.classList.contains("motion-paused");
+    // motion is off only for an OS/UA reduced-motion preference or a data-saver
+    // (screen size no longer gates it; phones play the footage too)
+    const motionOff = () => rm.matches || saveData;
 
     // width-reactive: re-decided on every apply(), so resizing across the 1280px
     // boundary picks the right rendition / restores video live
@@ -106,7 +104,5 @@ const { name, scrim = "left", label, priority = false, focusX = "50%" } = Astro.
     [narrowMq, rm].forEach((mq) =>
       mq.addEventListener ? mq.addEventListener("change", apply) : (mq as any).addListener(apply)
     );
-    // the motion toggle (BaseLayout) calls this after flipping .motion-paused
-    (window as any).__bvApplyMotion = apply;
   }
 </script>
