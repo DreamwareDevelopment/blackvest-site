@@ -138,17 +138,3 @@ body::after {
     text-shadow:0 1px 2px rgba(0,0,0,.6), 0 2px 16px rgba(0,0,0,.75);
   }
 }
-
-/* ── motion pause control (WCAG 2.2.2) — quiet, persistent, revealed only via JS ── */
-.motion-toggle {
-  position:fixed; right:1rem; bottom:1rem; z-index:90;
-  display:inline-flex; align-items:center; gap:.5rem;
-  font-family:var(--mono); font-size:.66rem; letter-spacing:.12em; text-transform:uppercase;
-  color:var(--dim); background:rgba(5,5,5,.82); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
-  border:1px solid var(--line); border-radius:100px; padding:.5rem .9rem; cursor:pointer;
-  transition:color .25s var(--ease), border-color .25s var(--ease); }
-.motion-toggle:hover, .motion-toggle:focus-visible { color:var(--champagne); border-color:var(--gold); }
-.motion-toggle__dot { width:.5rem; height:.5rem; border-radius:50%; background:var(--gold);
-  box-shadow:0 0 0 3px var(--gold-dim); }
-.motion-toggle.is-off .motion-toggle__dot { background:var(--mute); box-shadow:none; }
-@media (max-width:640px) { .motion-toggle { bottom:.75rem; right:.75rem; } }
